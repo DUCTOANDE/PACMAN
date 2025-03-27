@@ -30,12 +30,20 @@ DEMO
 **CÁCH CÀI ĐẶT VÀ CHẠY GAME**
 
 _1. CÀI ĐẶT MÔI TRƯỜNG_
-* **Bước 1:** Tạo môi trường ảo: 
-`python -m venv venv`
-* **Bước 2:** Kích hoạt môi trường ảo: 
+* **Bước 1:** Tạo môi trường ảo
+  ````bash
+  python -m venv venv
+  ````
+* **Bước 2:** Kích hoạt môi trường ảo
   * _**Trên Windows:**_
-`venv\Scripts\activate`
+   ````bash
+  venv\Scripts\activate
+  ````
 * _**Trên macOS và Linux:**_
-`source venv/bin/activate`
-* **Bước 3:** Cài đặt các thư viện cần thiết:
-`pip install -r requirements.txt`
+  ````bash
+  source venv/bin/activate
+  ````
+* **Bước 3:** Cài đặt các thư viện cần thiết
+````bash
+pip install -r requirements.txt
+````
