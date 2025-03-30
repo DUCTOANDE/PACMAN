@@ -10,6 +10,16 @@
 - **death.wav:** Âm thanh khi mất mạng
 - **backgroud.mp3:** Nhạc nền game
 
+**2. player_images:** Chứa hình ảnh cho Pac-Man
+- 1.png
+- 2.png
+- 3.png
+- 4.png
+ 
+ 3. 
+
+
+
 
 
 
