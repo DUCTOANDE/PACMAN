@@ -1,6 +1,6 @@
 DEMO
 <h1 align="center">[ĐỒ ÁN TRÍ TUỆ NHÂN TẠO]</h1>
-<h1 align="center">TRÒ CHƠI PACMAN SỬ DỤNG BẢN ĐỒ GOOGLE MAPS</h1>
+<h1 align="center">TRÒ CHƠI PACMAN</h1>
 
 **1. GIỚI THIỆU**
 - Dự án này là một trò chơi được thiết kế dựa trên trò chơi Pac-Man, trong đó Pac-Man di chuyển trên một bản đồ thật từ Google Maps. Người chơi có thể chọn bất kỳ khu vực nào trên Google Maps để làm sân chơi và điều khiển Pac-Man né tránh các Ghosts được điều khiển bằng Al.
