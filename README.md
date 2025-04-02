@@ -81,6 +81,16 @@ Chiến lược chơi: Hãy quan sát kỹ đường đi của các Ghosts và l
 Khám phá bản đồ: Vì trò chơi sử dụng bản đồ thực tế từ Google Maps, bạn có thể khám phá và chơi ở nhiều địa điểm khác nhau trên thế giới, mang lại trải nghiệm mới mẻ mỗi lần chơi.
 ***
 
+**PHẦN MỀM, CÔNG NGHỆ SỬ DỤNG:**
+
+* Capcut
+* Pinterest
+* Unscreen
+* Figma
+* Removebg
+* Freepik
+
+*** 
 THÔNG TIN LIÊN HỆ
 
 Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ thêm về dự án, vui lòng liên hệ:
