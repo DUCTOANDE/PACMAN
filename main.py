@@ -1,6 +1,6 @@
 import pygame
 import time
-from game.constants import WIDTH, HEIGHT
+from game.constants import WIDTH, HEIGHT, CELL_SIZE
 from game.assets_manager import AssetManager
 from game.game_controller import GameState
 

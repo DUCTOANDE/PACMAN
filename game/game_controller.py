@@ -52,19 +52,15 @@ class GameState:
     def _render_loading(self):
         current_time = time.time()
         self.screen.blit(self.assets.loading_img, (0, 0))
-        
-        if current_time - self.last_frame_time > GIF_DELAY/1000:
-            self.current_frame = (self.current_frame + 1) % len(self.assets.gif_frames)
-            self.last_frame_time = current_time
-            
-        self.screen.blit(self.assets.gif_frames[self.current_frame], (6.72, 489.6))
 
     def _render_menu(self):
+        # Draw background
         self.screen.blit(self.assets.menu_img, (0, 0))
         
         if self.button_hover:
-            hover_x = play_button_rect.x - (self.assets.play_button_hover.get_width() - self.assets.play_button_normal.get_width()) / 2
-            hover_y = play_button_rect.y - (self.assets.play_button_hover.get_height() - self.assets.play_button_normal.get_height()) / 2
+            # Calculate position for larger hover button
+            hover_x = play_button_rect.x - (self.assets.play_button_hover.get_width() - play_button_rect.width) // 2
+            hover_y = play_button_rect.y - (self.assets.play_button_hover.get_height() - play_button_rect.height) // 2
             self.screen.blit(self.assets.play_button_hover, (hover_x, hover_y))
         else:
             self.screen.blit(self.assets.play_button_normal, play_button_rect)
