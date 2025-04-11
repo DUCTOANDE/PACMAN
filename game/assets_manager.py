@@ -22,3 +22,11 @@ class AssetManager:
         self.play_button_img = pygame.image.load(r'C:\PACMAN\assets\Image\button_play.png')
         self.play_button_normal = pygame.transform.scale(self.play_button_img, (100, 60))
         self.play_button_hover = pygame.transform.scale(self.play_button_img, (int(100 * 1.1), int(60 * 1.1)))
+        
+        # Load Dot
+        self.loading_dot = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\Dot.png")
+        self.loading_dot = pygame.transform.scale(self.loading_dot, (25, 25))
+        
+        # Load Power-up
+        self.large_dot = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\Dot.png")
+        self.large_dot = pygame.transform.scale(self.loading_dot, (45, 45))

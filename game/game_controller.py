@@ -66,8 +66,22 @@ class GameState:
             self.screen.blit(self.assets.play_button_normal, play_button_rect)
 
     def _render_game(self):
-        self.screen.fill((255, 204, 0))
+        self.screen.fill((255, 204, 0))  # Màu nền
         for i in range(len(boards)):
             for j in range(len(boards[i])):
+                # Vẽ hình ảnh tương ứng với giá trị trong boards
                 image = self.assets.image_maps[boards[i][j]]
                 self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
+                
+                # Nếu là vị trí power-up, vẽ dot lớn hơn
+                if (i, j) in [(4, 1), (4, 12), (9, 1), (9, 12)]:
+                    dot_x = j * CELL_SIZE + (CELL_SIZE - self.assets.large_dot.get_width()) // 2
+                    dot_y = i * CELL_SIZE + (CELL_SIZE - self.assets.large_dot.get_height()) // 2
+                    self.screen.blit(self.assets.large_dot, (dot_x, dot_y))
+                
+                # Nếu giá trị là 2 và không nằm trong các vị trí loại trừ, vẽ dot thường
+                elif boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7)]):
+                    dot_x = j * CELL_SIZE + (CELL_SIZE - self.assets.loading_dot.get_width()) // 2
+                    dot_y = i * CELL_SIZE + (CELL_SIZE - self.assets.loading_dot.get_height()) // 2
+                    self.screen.blit(self.assets.loading_dot, (dot_x, dot_y))
+                    
