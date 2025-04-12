@@ -2,6 +2,8 @@ import pygame
 import time
 from .constants import *
 from .board import boards
+from .assets_manager import AssetManager
+from .player import Player
 
 class GameState:
     def __init__(self, screen, assets):
@@ -13,7 +15,10 @@ class GameState:
         self.last_frame_time = time.time()
         self.clock = pygame.time.Clock()
         self.button_hover = False
-
+        
+     
+        # Khởi tạo Player
+        self.player = Player(self.screen, self.assets.player_images, 300, 500)
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
         
@@ -37,6 +42,12 @@ class GameState:
     def update(self, current_time):
         if self.current_state == LOADING and current_time - self.start_time > LOADING_DURATION:
             self.current_state = MENU
+        elif self.current_state == PLAYING:
+              # Cập nhật counter trong Player
+            if self.player.counter < 19:
+                self.player.counter += 1
+            else:
+                self.player.counter = 0
 
     def render(self):
         if self.current_state == LOADING:
@@ -80,8 +91,10 @@ class GameState:
                     self.screen.blit(self.assets.large_dot, (dot_x, dot_y))
                 
                 # Nếu giá trị là 2 và không nằm trong các vị trí loại trừ, vẽ dot thường
-                elif boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7)]):
+                elif boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7), (10,6)]):
                     dot_x = j * CELL_SIZE + (CELL_SIZE - self.assets.loading_dot.get_width()) // 2
                     dot_y = i * CELL_SIZE + (CELL_SIZE - self.assets.loading_dot.get_height()) // 2
                     self.screen.blit(self.assets.loading_dot, (dot_x, dot_y))
+        # Vẽ Pac-Man
+        self.player.draw_player()
                     

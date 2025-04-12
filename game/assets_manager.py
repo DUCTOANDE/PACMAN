@@ -30,3 +30,10 @@ class AssetManager:
         # Load Power-up
         self.large_dot = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\Dot.png")
         self.large_dot = pygame.transform.scale(self.loading_dot, (45, 45))
+        
+        # Khởi tạo self.player_images là một danh sách
+        self.player_images = []
+        for i in range(1, 5):
+            img = pygame.image.load(rf"E:\School\AI\PACMAN\assets\player_images\{i}.png")
+            scaled_img = pygame.transform.scale(img, (47, 47))
+            self.player_images.append(scaled_img)
