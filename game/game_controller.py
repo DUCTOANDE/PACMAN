@@ -16,9 +16,11 @@ class GameState:
         self.clock = pygame.time.Clock()
         self.button_hover = False
         
-     
+        #Biến này dùng để điều khiển nhấp nháy của Power-up
+        self.flicker = False
         # Khởi tạo Player
         self.player = Player(self.screen, self.assets.player_images, 300, 500)
+    
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
         
@@ -31,11 +33,22 @@ class GameState:
                 return False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return False
-                
+            
             if self.current_state == MENU:
                 if play_button_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(100)  # Click feel
                     self.current_state = PLAYING
+            
+            elif self.current_state == PLAYING:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        self.player.direction = 0
+                    elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        self.player.direction = 1
+                    elif event.key == pygame.K_UP or event.key == pygame.K_w:
+                        self.player.direction = 2
+                    elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                        self.player.direction = 3
                     
         return True
 
@@ -46,8 +59,11 @@ class GameState:
               # Cập nhật counter trong Player
             if self.player.counter < 19:
                 self.player.counter += 1
+                if self.player.counter > 3:
+                    self.flicker = False
             else:
                 self.player.counter = 0
+                self.flicker = True
 
     def render(self):
         if self.current_state == LOADING:
@@ -85,7 +101,7 @@ class GameState:
                 self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
                 
                 # Nếu là vị trí power-up, vẽ dot lớn hơn
-                if (i, j) in [(4, 1), (4, 12), (9, 1), (9, 12)]:
+                if (i, j) in [(4, 1), (4, 12), (9, 1), (9, 12)] and (not self.flicker):
                     dot_x = j * CELL_SIZE + (CELL_SIZE - self.assets.large_dot.get_width()) // 2
                     dot_y = i * CELL_SIZE + (CELL_SIZE - self.assets.large_dot.get_height()) // 2
                     self.screen.blit(self.assets.large_dot, (dot_x, dot_y))

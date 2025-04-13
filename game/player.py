@@ -11,6 +11,7 @@ class Player:
         self.counter = 0
     
     def draw_player(self):
+        # 0 = right, 1 = left, 2 = up, 3 = down
         frame = self.player_image[self.counter // 5]
         if self.direction == 0:
             self.screen.blit(frame, (self.player_x, self.player_y))
