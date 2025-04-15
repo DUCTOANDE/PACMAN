@@ -20,7 +20,10 @@ class GameState:
         self.flicker = False
         # Khởi tạo Player
         self.player = Player(self.screen, self.assets.player_images, 300, 500)
-    
+        
+        # Initialize direction_command
+        self.direction_command = self.player.direction
+        
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
         
@@ -42,14 +45,13 @@ class GameState:
             elif self.current_state == PLAYING:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        self.player.direction = 0
+                        self.direction_command = 0
                     elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                        self.player.direction = 1
+                        self.direction_command = 1
                     elif event.key == pygame.K_UP or event.key == pygame.K_w:
-                        self.player.direction = 2
+                        self.direction_command = 2
                     elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                        self.player.direction = 3
-                    
+                        self.direction_command = 3             
         return True
 
     def update(self, current_time):
@@ -64,6 +66,18 @@ class GameState:
             else:
                 self.player.counter = 0
                 self.flicker = True
+            self.player.turns_allowed = self.player.check_position()
+            # Update direction based on direction_command and turns_allowed
+            if self.direction_command == 0 and self.player.turns_allowed[0]:
+                self.player.direction = 0
+            if self.direction_command == 1 and self.player.turns_allowed[1]:
+                self.player.direction = 1
+            if self.direction_command == 2 and self.player.turns_allowed[2]:
+                self.player.direction = 2
+            if self.direction_command == 3 and self.player.turns_allowed[3]:
+                self.player.direction = 3
+            
+            self.player.move_player()
 
     def render(self):
         if self.current_state == LOADING:
