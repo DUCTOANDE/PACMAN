@@ -5,6 +5,9 @@ from .board import boards
 from .assets_manager import AssetManager
 from .player import Player
 
+
+STARTUP_DELAY = 240
+POWERUP_DURATION = 600
 class GameState:
     def __init__(self, screen, assets):
         self.screen = screen
@@ -16,6 +19,10 @@ class GameState:
         self.clock = pygame.time.Clock()
         self.button_hover = False
         
+        self.startup_counter = 0
+        self.moving = False
+        self.game_over = False 
+        self.game_won = False 
         #Biến này dùng để điều khiển nhấp nháy của Power-up
         self.flicker = False
         # Khởi tạo Player
@@ -23,6 +30,11 @@ class GameState:
         
         # Initialize direction_command
         self.direction_command = self.player.direction
+        
+        # --- Thêm khởi tạo font ---
+        pygame.font.init() # Đảm bảo module font được khởi tạo
+        # Chọn font và cỡ chữ phù hợp (ví dụ: font mặc định, cỡ 36)
+        self.font = pygame.font.Font(None, 36)
         
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -41,8 +53,10 @@ class GameState:
                 if play_button_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(100)  # Click feel
                     self.current_state = PLAYING
+                    self.startup_counter = 0 # Reset startup counter when starting play
+                    self.moving = False      # Ensure starting paused
             
-            elif self.current_state == PLAYING:
+            elif self.current_state == PLAYING and self.moving:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         self.direction_command = 0
@@ -58,6 +72,24 @@ class GameState:
         if self.current_state == LOADING and current_time - self.start_time > LOADING_DURATION:
             self.current_state = MENU
         elif self.current_state == PLAYING:
+            
+            # --- Logic Startup Delay ---
+            if self.startup_counter < STARTUP_DELAY and not self.game_over and not self.game_won:
+                self.moving = False
+                self.startup_counter += 1
+            else:
+                self.moving = True
+            # ---------------------------
+            
+            # --- Thêm logic xử lý Power-up timer (sử dụng hằng số) ---
+            if self.player.power and self.player.power_count < POWERUP_DURATION:
+                 self.player.power_count += 1
+            elif self.player.power and self.player.power_count >= POWERUP_DURATION:
+                 self.player.power_count = 0
+                 self.player.power = False
+                 self.player.eaten_ghosts = [False, False, False, False]
+            # ---------------------------------------------------------
+            
               # Cập nhật counter trong Player
             if self.player.counter < 19:
                 self.player.counter += 1
@@ -66,6 +98,7 @@ class GameState:
             else:
                 self.player.counter = 0
                 self.flicker = True
+        if self.moving:
             self.player.turns_allowed = self.player.check_position()
             # Update direction based on direction_command and turns_allowed
             if self.direction_command == 0 and self.player.turns_allowed[0]:
@@ -105,12 +138,13 @@ class GameState:
             self.screen.blit(self.assets.play_button_hover, (hover_x, hover_y))
         else:
             self.screen.blit(self.assets.play_button_normal, play_button_rect)
+            
+        
 
     def _render_game(self):
         self.screen.fill((0, 0, 0))  # Clear the screen with black
         for i in range(len(boards)):
             for j in range(len(boards[i])):
-                
                 # Vẽ hình ảnh tương ứng với giá trị trong boards
                 image = self.assets.image_maps[boards[i][j]]
                 if boards[i][j] == 4 or boards[i][j] == 5:
@@ -127,4 +161,27 @@ class GameState:
                     self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
 
         self.player.draw_player()
-                    
+        self.draw_misc()
+        
+        # --- Vẽ chữ "READY!" nếu chưa di chuyển ---
+        if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
+            self.screen.blit(self.assets.ready_img, (300,400))
+             
+        # ------------------------------------------
+    def draw_misc(self):
+        # Vị trí để vẽ icon điểm số
+        score_icon_x = 60
+        score_icon_y = HEIGHT - CELL_SIZE + 5 # Đặt ở hàng dưới cùng, căn giữa theo chiều dọc
+
+        # Vẽ icon điểm số
+        self.screen.blit(self.assets.score_img, (score_icon_x, score_icon_y))
+
+        # Tạo text hiển thị điểm số
+        score_value_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255)) # Chỉ hiển thị giá trị điểm
+
+        # Vị trí để vẽ text điểm số (ngay bên phải icon)
+        score_text_x = score_icon_x + self.assets.score_img.get_width() + 2 # Cách icon 10 pixel
+        score_text_y = score_icon_y + (self.assets.score_img.get_height() - score_value_text.get_height()) // 2 # Căn giữa text với icon
+
+        # Vẽ text điểm số
+        self.screen.blit(score_value_text, (score_text_x, score_text_y))

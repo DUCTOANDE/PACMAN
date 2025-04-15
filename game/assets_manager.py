@@ -36,4 +36,12 @@ class AssetManager:
             scaled_img = pygame.transform.scale(img, (47, 47))
             self.player_images.append(scaled_img)
         
+        # load score
+        self.score_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\Score.png")
+        self.score_img = pygame.transform.scale(self.score_img, (40, 40))
+        
+        # load ready
+        self.ready_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\ready.png")
+        self.ready_img = pygame.transform.scale(self.ready_img, (90, 150))
+        
         

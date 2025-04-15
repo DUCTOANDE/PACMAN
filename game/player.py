@@ -20,6 +20,10 @@ class Player:
         self.GRID_HEIGHT = (HEIGHT - CELL_SIZE) // CELL_SIZE
         self.speed = 2
         self.score = 0
+        self.power = False
+        self.power_count = 0
+        self.eaten_ghosts = [False, False, False, False]
+        
 
     def draw_player(self):
         frame = self.player_image[self.counter // 5]
@@ -119,5 +123,9 @@ class Player:
                 self.score += 10
             elif boards[center_row][center_col] == 3:
                 boards[center_row][center_col] = 6 
-                self.score += 50
                 
+                self.score += 50
+                self.power = True
+                self.power_count = 0
+                self.eaten_ghosts = [False, False, False, False]
+
