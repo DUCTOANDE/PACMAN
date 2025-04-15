@@ -165,7 +165,8 @@ class GameState:
         
         # --- Vẽ chữ "READY!" nếu chưa di chuyển ---
         if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
-            self.screen.blit(self.assets.ready_img, (300,400))
+            if (self.startup_counter % 40) < 20:
+                self.screen.blit(self.assets.ready_img, (300,400))
              
         # ------------------------------------------
     def draw_misc(self):
