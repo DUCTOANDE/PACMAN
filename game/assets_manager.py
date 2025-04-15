@@ -7,7 +7,7 @@ class AssetManager:
     def __init__(self):  
         # Load map tiles
         self.image_maps = {}
-        for i in range(0, 6):
+        for i in range(0, 7):
             img = pygame.image.load(rf"E:\School\AI\PACMAN\assets\Image\{i}.png")
             if i == 2:
                 self.image_maps[i] = pygame.transform.scale(img, (25, 25))

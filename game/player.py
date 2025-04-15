@@ -19,6 +19,7 @@ class Player:
         self.GRID_WIDTH = WIDTH // CELL_SIZE
         self.GRID_HEIGHT = (HEIGHT - CELL_SIZE) // CELL_SIZE
         self.speed = 2
+        self.score = 0
 
     def draw_player(self):
         frame = self.player_image[self.counter // 5]
@@ -107,3 +108,16 @@ class Player:
         
         self.center_x = self.player_x + self.image_width // 2
         self.center_y = self.player_y + self.image_height // 2
+    
+    def check_collision(self):
+        # Xác định ô lưới dựa trên tâm của người chơi
+        center_col = self.center_x // CELL_SIZE
+        center_row = self.center_y // CELL_SIZE
+        if 0 <= center_row < len(boards) and 0 <= center_col < len(boards[0]):
+            if boards[center_row][center_col] == 2:
+                boards[center_row][center_col] = 6  
+                self.score += 10
+            elif boards[center_row][center_col] == 3:
+                boards[center_row][center_col] = 6 
+                self.score += 50
+                

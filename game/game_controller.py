@@ -78,7 +78,7 @@ class GameState:
                 self.player.direction = 3
             
             self.player.move_player()
-
+            self.player.check_collision()
     def render(self):
         if self.current_state == LOADING:
             self._render_loading()
