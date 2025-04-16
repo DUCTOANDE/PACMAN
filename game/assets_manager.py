@@ -44,4 +44,8 @@ class AssetManager:
         self.ready_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\ready.png")
         self.ready_img = pygame.transform.scale(self.ready_img, (90, 150))
         
+        # load lives
+        self.lives_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\lives.png")
+        self.lives_img = pygame.transform.scale(self.lives_img, (40, 40))
+        
         

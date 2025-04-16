@@ -170,6 +170,7 @@ class GameState:
              
         # ------------------------------------------
     def draw_misc(self):
+        # ----- Vẽ điểm số ----
         # Vị trí để vẽ icon điểm số
         score_icon_x = 60
         score_icon_y = HEIGHT - CELL_SIZE + 5 # Đặt ở hàng dưới cùng, căn giữa theo chiều dọc
@@ -186,3 +187,21 @@ class GameState:
 
         # Vẽ text điểm số
         self.screen.blit(score_value_text, (score_text_x, score_text_y))
+        
+        # ---------------------
+        
+        # # Hiệu ứng phát hiện khi ăn power-up
+        # if self.player.power:
+        #     pygame.draw.circle(self.screen, (255, 255, 0), (self.player.center_x, self.player.center_y), 20)
+        
+        # # ----------------------
+        
+        # Mạng sống
+        for i in range (self.player.lives):
+            self.screen.blit(pygame.transform.scale(self.assets.lives_img, (CELL_SIZE - 10, CELL_SIZE - 10)), (520 + i*40, 705))
+        
+        # ---------------------
+            
+        
+            
+        

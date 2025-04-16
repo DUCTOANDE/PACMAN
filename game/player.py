@@ -23,6 +23,7 @@ class Player:
         self.power = False
         self.power_count = 0
         self.eaten_ghosts = [False, False, False, False]
+        self.lives = 3
         
 
     def draw_player(self):
