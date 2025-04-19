@@ -4,7 +4,7 @@ from .constants import *
 from .board import boards
 from .assets_manager import AssetManager
 from .player import Player
-
+from .ghosts import Ghost
 
 STARTUP_DELAY = 240
 POWERUP_DURATION = 600
@@ -23,10 +23,80 @@ class GameState:
         self.moving = False
         self.game_over = False 
         self.game_won = False 
-        #Biến này dùng để điều khiển nhấp nháy của Power-up
-        self.flicker = False
+        
         # Khởi tạo Player
         self.player = Player(self.screen, self.assets.player_images, 300, 500)
+        
+        # >>> Ghosts <<<
+        self.target = [[self.player.player_x, self.player.player_y]]*4
+        self.ghost_speeds = [2, 2, 2, 2]  # Tốc độ mặc định cho ghosts
+        
+        #Biến này dùng để điều khiển nhấp nháy của Power-up
+        self.flicker = False
+        
+        # >>> Khởi tạo Ghosts <<<
+        self.blinky = Ghost(
+            screen=self.screen,
+            x_coord=300,
+            y_coord=350,
+            target=self.target[0],
+            speed=self.ghost_speeds[0],
+            img=self.assets.binky_img,
+            direct=2,
+            dead=False,
+            box=False,
+            id=0,
+            player=self.player,
+            assets=self.assets
+        )
+
+        
+        self.inky = Ghost(
+            screen=self.screen,
+            x_coord = 350,
+            y_coord = 350,
+            target = self.target[1], 
+            speed = self.ghost_speeds[1],
+            img=self.assets.inky_img, 
+            direct = 2, 
+            dead = False, 
+            box = False, 
+            id = 1,
+            player=self.player,
+            assets=self.assets
+        )
+        
+        self.pinky = Ghost (
+            screen=self.screen,
+            x_coord = 300,
+            y_coord = 400,
+            target = self.target[2], 
+            speed = self.ghost_speeds[2],
+            img=self.assets.pinky_img, 
+            direct = 2, 
+            dead = False, 
+            box = False, 
+            id = 2,
+            player=self.player,
+            assets=self.assets
+        )
+        
+        self.clyde = Ghost(
+            screen=self.screen,
+            x_coord = 350,
+            y_coord = 400,
+            target = self.target[3], 
+            speed = self.ghost_speeds[3],
+            img=self.assets.clyde_img, 
+            direct = 2,
+            dead = False, 
+            box = False, 
+            id = 3,
+            player=self.player,
+            assets=self.assets
+        )    
+        
+
         
         # Initialize direction_command
         self.direction_command = self.player.direction
@@ -161,6 +231,13 @@ class GameState:
                     self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
 
         self.player.draw_player()
+        
+        # Vẽ các ghost
+        self.blinky.draw()
+        self.inky.draw()
+        self.pinky.draw()
+        self.clyde.draw()
+        
         self.draw_misc()
         
         # --- Vẽ chữ "READY!" nếu chưa di chuyển ---

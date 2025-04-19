@@ -48,4 +48,24 @@ class AssetManager:
         self.lives_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\Image\lives.png")
         self.lives_img = pygame.transform.scale(self.lives_img, (40, 40))
         
+        # Load ghost images
+        self.binky_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\red.png")
+        self.binky_img = pygame.transform.scale(self.binky_img, (47, 47))
+        
+        self.pinky_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\pink.png")
+        self.pinky_img = pygame.transform.scale(self.pinky_img, (47, 47))
+        
+        self.inky_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\blue.png")
+        self.inky_img = pygame.transform.scale(self.inky_img, (47, 47))
+        
+        self.clyde_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\orange.png")
+        self.clyde_img = pygame.transform.scale(self.clyde_img, (47, 47))
+        
+        self.spooked_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\powerup.png")
+        self.spooked_img = pygame.transform.scale(self.spooked_img, (47, 47))
+        
+        self.dead_img = pygame.image.load(r"E:\School\AI\PACMAN\assets\ghost_images\dead.png")
+        self.dead_img = pygame.transform.scale(self.dead_img, (47, 47))
+        
+        
         

@@ -25,7 +25,6 @@ class Player:
         self.eaten_ghosts = [False, False, False, False]
         self.lives = 3
         
-
     def draw_player(self):
         frame = self.player_image[self.counter // 5]
         if self.direction == 0:
