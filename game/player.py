@@ -128,7 +128,7 @@ class Player:
                 self.power_count = 0
                 self.eaten_ghosts = [False, False, False, False]
             
-            # Sửa logic kiểm tra dot/powerup còn lại
-            dots_remaining = any(2 in row or 3 in row for row in boards)  # <-- Sửa tại đây
+            dots_remaining = any(2 in row or 3 in row for row in boards)
             if not dots_remaining and self.game_state:
-                self.game_state.game_won = True  # <-- Kích hoạt chiến thắng
+                print("All dots and powerups eaten! Triggering win condition.")
+                self.game_state.game_won = True
