@@ -24,7 +24,8 @@ class Player:
         self.power_count = 0
         self.eaten_ghosts = [False, False, False, False]
         self.lives = 3
-        
+        self.game_state = None
+
     def draw_player(self):
         frame = self.player_image[self.counter // 5]
         if self.direction == 0:
@@ -114,7 +115,6 @@ class Player:
         self.center_y = self.player_y + self.image_height // 2
     
     def check_collision(self):
-        # Xác định ô lưới dựa trên tâm của người chơi
         center_col = self.center_x // CELL_SIZE
         center_row = self.center_y // CELL_SIZE
         if 0 <= center_row < len(boards) and 0 <= center_col < len(boards[0]):
@@ -123,9 +123,12 @@ class Player:
                 self.score += 10
             elif boards[center_row][center_col] == 3:
                 boards[center_row][center_col] = 6 
-                
                 self.score += 50
                 self.power = True
                 self.power_count = 0
                 self.eaten_ghosts = [False, False, False, False]
-
+            
+            # Sửa logic kiểm tra dot/powerup còn lại
+            dots_remaining = any(2 in row or 3 in row for row in boards)  # <-- Sửa tại đây
+            if not dots_remaining and self.game_state:
+                self.game_state.game_won = True  # <-- Kích hoạt chiến thắng

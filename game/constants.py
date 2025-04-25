@@ -2,7 +2,7 @@ import pygame
 
 # Window settings
 WIDTH = 700
-HEIGHT =750
+HEIGHT = 750
 CELL_SIZE = 50
 
 # Game states

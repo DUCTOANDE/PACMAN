@@ -8,6 +8,7 @@ from .ghosts import Ghost
 
 STARTUP_DELAY = 240
 POWERUP_DURATION = 600
+
 class GameState:
     def __init__(self, screen, assets):
         self.screen = screen
@@ -26,85 +27,45 @@ class GameState:
         
         # Khởi tạo Player
         self.player = Player(self.screen, self.assets.player_images, 300, 500)
+        self.player.game_state = self  # Thêm tham chiếu game_state vào player
         
-        # >>> Ghosts <<<
+        # Ghosts
         self.target = [[self.player.player_x, self.player.player_y]]*4
-        self.ghost_speeds = [2, 2, 2, 2]  # Tốc độ mặc định cho ghosts
-        
-        #Biến này dùng để điều khiển nhấp nháy của Power-up
+        self.ghost_speeds = [1, 1, 1, 1]
         self.flicker = False
         
-        # >>> Khởi tạo Ghosts <<<
+        # Khởi tạo Ghosts
         self.blinky = Ghost(
-            screen=self.screen,
-            x_coord=300,
-            y_coord=350,
-            target=self.target[0],
-            speed=self.ghost_speeds[0],
-            img=self.assets.binky_img,
-            direct=2,
-            dead=False,
-            box=False,
-            id=0,
-            player=self.player,
-            assets=self.assets
+            screen=self.screen, x_coord=300, y_coord=350, target=self.target[0],
+            speed=self.ghost_speeds[0], img=self.assets.binky_img, direct=2,
+            dead=False, box=True, id=0, player=self.player, assets=self.assets, game_state=self
         )
-
-        
         self.inky = Ghost(
-            screen=self.screen,
-            x_coord = 350,
-            y_coord = 350,
-            target = self.target[1], 
-            speed = self.ghost_speeds[1],
-            img=self.assets.inky_img, 
-            direct = 2, 
-            dead = False, 
-            box = False, 
-            id = 1,
-            player=self.player,
-            assets=self.assets
+            screen=self.screen, x_coord=350, y_coord=350, target=self.target[1],
+            speed=self.ghost_speeds[1], img=self.assets.inky_img, direct=2,
+            dead=False, box=True, id=1, player=self.player, assets=self.assets, game_state=self
         )
-        
-        self.pinky = Ghost (
-            screen=self.screen,
-            x_coord = 300,
-            y_coord = 400,
-            target = self.target[2], 
-            speed = self.ghost_speeds[2],
-            img=self.assets.pinky_img, 
-            direct = 2, 
-            dead = False, 
-            box = False, 
-            id = 2,
-            player=self.player,
-            assets=self.assets
+        self.pinky = Ghost(
+            screen=self.screen, x_coord=300, y_coord=400, target=self.target[2],
+            speed=self.ghost_speeds[2], img=self.assets.pinky_img, direct=2,
+            dead=False, box=True, id=2, player=self.player, assets=self.assets, game_state=self
         )
-        
         self.clyde = Ghost(
-            screen=self.screen,
-            x_coord = 350,
-            y_coord = 400,
-            target = self.target[3], 
-            speed = self.ghost_speeds[3],
-            img=self.assets.clyde_img, 
-            direct = 2,
-            dead = False, 
-            box = False, 
-            id = 3,
-            player=self.player,
-            assets=self.assets
-        )    
+            screen=self.screen, x_coord=350, y_coord=400, target=self.target[3],
+            speed=self.ghost_speeds[3], img=self.assets.clyde_img, direct=2,
+            dead=False, box=True, id=3, player=self.player, assets=self.assets, game_state=self
+        )
         
-
+        # Khởi tạo danh sách ghosts sau khi tất cả ghost đã được tạo
+        self.ghosts = [self.blinky, self.inky, self.pinky, self.clyde]
+        self.ghost_release_timer = [0, 60, 120, 180]  # Thời gian thả ghost (frame)
         
-        # Initialize direction_command
         self.direction_command = self.player.direction
-        
-        # --- Thêm khởi tạo font ---
-        pygame.font.init() # Đảm bảo module font được khởi tạo
-        # Chọn font và cỡ chữ phù hợp (ví dụ: font mặc định, cỡ 36)
+        pygame.font.init()
         self.font = pygame.font.Font(None, 36)
+        
+        # Thêm font lớn hơn cho "Game Over" và "You Win!"
+        self.game_over_font = pygame.font.Font(None, 72)
         
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -126,7 +87,7 @@ class GameState:
                     self.startup_counter = 0 # Reset startup counter when starting play
                     self.moving = False      # Ensure starting paused
             
-            elif self.current_state == PLAYING and self.moving:
+            elif self.current_state == PLAYING and self.moving and not self.game_over and not self.game_won:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         self.direction_command = 0
@@ -141,26 +102,23 @@ class GameState:
     def update(self, current_time):
         if self.current_state == LOADING and current_time - self.start_time > LOADING_DURATION:
             self.current_state = MENU
-        elif self.current_state == PLAYING:
-            
-            # --- Logic Startup Delay ---
-            if self.startup_counter < STARTUP_DELAY and not self.game_over and not self.game_won:
+        elif self.current_state == PLAYING and not self.game_over and not self.game_won:
+            # Logic Startup Delay
+            if self.startup_counter < STARTUP_DELAY:
                 self.moving = False
                 self.startup_counter += 1
             else:
                 self.moving = True
-            # ---------------------------
-            
-            # --- Thêm logic xử lý Power-up timer (sử dụng hằng số) ---
+                
+            # Logic Power-up timer
             if self.player.power and self.player.power_count < POWERUP_DURATION:
-                 self.player.power_count += 1
+                self.player.power_count += 1
             elif self.player.power and self.player.power_count >= POWERUP_DURATION:
-                 self.player.power_count = 0
-                 self.player.power = False
-                 self.player.eaten_ghosts = [False, False, False, False]
-            # ---------------------------------------------------------
-            
-              # Cập nhật counter trong Player
+                self.player.power_count = 0
+                self.player.power = False
+                self.player.eaten_ghosts = [False, False, False, False]
+                
+            # Cập nhật counter trong Player
             if self.player.counter < 19:
                 self.player.counter += 1
                 if self.player.counter > 3:
@@ -168,20 +126,28 @@ class GameState:
             else:
                 self.player.counter = 0
                 self.flicker = True
-        if self.moving:
-            self.player.turns_allowed = self.player.check_position()
-            # Update direction based on direction_command and turns_allowed
-            if self.direction_command == 0 and self.player.turns_allowed[0]:
-                self.player.direction = 0
-            if self.direction_command == 1 and self.player.turns_allowed[1]:
-                self.player.direction = 1
-            if self.direction_command == 2 and self.player.turns_allowed[2]:
-                self.player.direction = 2
-            if self.direction_command == 3 and self.player.turns_allowed[3]:
-                self.player.direction = 3
-            
-            self.player.move_player()
-            self.player.check_collision()
+                
+            if self.moving:
+                self.player.turns_allowed = self.player.check_position()
+                # Update direction based on direction_command and turns_allowed
+                if self.direction_command == 0 and self.player.turns_allowed[0]:
+                    self.player.direction = 0
+                if self.direction_command == 1 and self.player.turns_allowed[1]:
+                    self.player.direction = 1
+                if self.direction_command == 2 and self.player.turns_allowed[2]:
+                    self.player.direction = 2
+                if self.direction_command == 3 and self.player.turns_allowed[3]:
+                    self.player.direction = 3
+                    
+                self.player.move_player()
+                self.player.check_collision()
+                
+                # Di chuyển các ghost dựa trên thời gian thả
+                for i, ghost in enumerate(self.ghosts):
+                    if self.startup_counter >= self.ghost_release_timer[i]:
+                        ghost.in_box = False
+                        ghost.move_ghost()
+
     def render(self):
         if self.current_state == LOADING:
             self._render_loading()
@@ -208,44 +174,58 @@ class GameState:
             self.screen.blit(self.assets.play_button_hover, (hover_x, hover_y))
         else:
             self.screen.blit(self.assets.play_button_normal, play_button_rect)
-            
-        
 
     def _render_game(self):
-        self.screen.fill((0, 0, 0))  # Clear the screen with black
-        for i in range(len(boards)):
-            for j in range(len(boards[i])):
-                # Vẽ hình ảnh tương ứng với giá trị trong boards
-                image = self.assets.image_maps[boards[i][j]]
-                if boards[i][j] == 4 or boards[i][j] == 5:
-                    self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
-                if boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7)]) :
-                    dot_x = j * CELL_SIZE + (CELL_SIZE - 25) // 2
-                    dot_y = i * CELL_SIZE + (CELL_SIZE - 25) // 2
-                    self.screen.blit(image, (dot_x, dot_y))
-                if boards[i][j] == 3 and (not self.flicker):
-                    dot_x = j * CELL_SIZE + (CELL_SIZE - 45) // 2
-                    dot_y = i * CELL_SIZE + (CELL_SIZE - 45) // 2
-                    self.screen.blit(image, (dot_x, dot_y))
-                if boards[i][j] == 0 or boards[i][j] == 1:
-                    self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
+        if self.game_over:
+            # Hiển thị màn hình "Game Over"
+            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            game_over_text = self.game_over_font.render("Game Over", True, (255, 0, 0))
+            score_text = self.font.render(f"Final Score: {self.player.score}", True, (255, 255, 255))
+            self.screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - 50))
+            self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 50))
+        elif self.game_won:
+            # Hiển thị màn hình "You Win!"
+            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            win_text = self.game_over_font.render("You Win!", True, (0, 255, 0))
+            score_text = self.font.render(f"Final Score: {self.player.score}", True, (255, 255, 255))
+            self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 50))
+            self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 50))
+        else:
+            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            for i in range(len(boards)):
+                for j in range(len(boards[i])):
+                    image = self.assets.image_maps[boards[i][j]]
+                    if boards[i][j] == 4 or boards[i][j] == 5:
+                        self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
+                    if boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7)]):
+                        dot_x = j * CELL_SIZE + (CELL_SIZE - 25) // 2
+                        dot_y = i * CELL_SIZE + (CELL_SIZE - 25) // 2
+                        self.screen.blit(image, (dot_x, dot_y))
+                    if boards[i][j] == 3 and (not self.flicker):
+                        dot_x = j * CELL_SIZE + (CELL_SIZE - 45) // 2
+                        dot_y = i * CELL_SIZE + (CELL_SIZE - 45) // 2
+                        self.screen.blit(image, (dot_x, dot_y))
+                    if boards[i][j] == 0 or boards[i][j] == 1:
+                        self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
 
-        self.player.draw_player()
-        
-        # Vẽ các ghost
-        self.blinky.draw()
-        self.inky.draw()
-        self.pinky.draw()
-        self.clyde.draw()
-        
-        self.draw_misc()
-        
-        # --- Vẽ chữ "READY!" nếu chưa di chuyển ---
-        if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
-            if (self.startup_counter % 40) < 20:
-                self.screen.blit(self.assets.ready_img, (300,400))
+            self.player.draw_player()
+            
+            # Vẽ các ghost
+            for ghost in self.ghosts:
+                ghost.draw()
+            
+            # Kiểm tra va chạm với người chơi
+            for ghost in self.ghosts:
+                if ghost.check_player_collision():
+                    self.game_over = True
+            
+            self.draw_misc()
+            
+            # Vẽ chữ "READY!" nếu chưa di chuyển
+            if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
+                if (self.startup_counter % 40) < 20:
+                    self.screen.blit(self.assets.ready_img, (300, 400))
              
-        # ------------------------------------------
     def draw_misc(self):
         # ----- Vẽ điểm số ----
         # Vị trí để vẽ icon điểm số
@@ -265,20 +245,6 @@ class GameState:
         # Vẽ text điểm số
         self.screen.blit(score_value_text, (score_text_x, score_text_y))
         
-        # ---------------------
-        
-        # # Hiệu ứng phát hiện khi ăn power-up
-        # if self.player.power:
-        #     pygame.draw.circle(self.screen, (255, 255, 0), (self.player.center_x, self.player.center_y), 20)
-        
-        # # ----------------------
-        
         # Mạng sống
-        for i in range (self.player.lives):
+        for i in range(self.player.lives):
             self.screen.blit(pygame.transform.scale(self.assets.lives_img, (CELL_SIZE - 10, CELL_SIZE - 10)), (520 + i*40, 705))
-        
-        # ---------------------
-            
-        
-            
-        
