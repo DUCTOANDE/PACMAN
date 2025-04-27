@@ -30,41 +30,79 @@ class GameState:
         self.player.game_state = self  # Thêm tham chiếu game_state vào player
         
         # Ghosts
-        self.target = [[self.player.player_x, self.player.player_y]]*4
-        self.ghost_speeds = [1, 1, 1, 1]
+        self.target = [[self.player.center_x, self.player.center_y]]*4
+        # self.ghost_speeds = [1, 1, 1, 1]
         self.flicker = False
         
         # Khởi tạo Ghosts
         self.blinky = Ghost(
-            screen=self.screen, x_coord=300, y_coord=350, target=self.target[0],
-            speed=self.ghost_speeds[0], img=self.assets.binky_img, direct=2,
-            dead=False, box=True, id=0, player=self.player, assets=self.assets, game_state=self
+            screen=self.screen, 
+            x_coord=300,
+            y_coord=350,
+            target=self.target[0],
+            # speed=self.ghost_speeds[0], 
+            img=self.assets.binky_img, 
+            direct=2,
+            dead=False, 
+            box=True, 
+            id=0, 
+            player=self.player, 
+            assets=self.assets, 
+            game_state=self
         )
         self.inky = Ghost(
-            screen=self.screen, x_coord=350, y_coord=350, target=self.target[1],
-            speed=self.ghost_speeds[1], img=self.assets.inky_img, direct=2,
-            dead=False, box=True, id=1, player=self.player, assets=self.assets, game_state=self
+            screen=self.screen, 
+            x_coord=350,
+            y_coord=350,
+            target=self.target[1],
+            # speed=self.ghost_speeds[1], 
+            img=self.assets.inky_img, 
+            direct=2,
+            dead=False, 
+            box=True, 
+            id=1, 
+            player=self.player, 
+            assets=self.assets, 
+            game_state=self
         )
         self.pinky = Ghost(
-            screen=self.screen, x_coord=300, y_coord=400, target=self.target[2],
-            speed=self.ghost_speeds[2], img=self.assets.pinky_img, direct=2,
-            dead=False, box=True, id=2, player=self.player, assets=self.assets, game_state=self
+            screen=self.screen, 
+            x_coord=300,
+            y_coord=400,
+            target=self.target[2],
+            # speed=self.ghost_speeds[2], 
+            img=self.assets.pinky_img, 
+            direct=2,
+            dead=False, 
+            box=True, 
+            id=2, 
+            player=self.player, 
+            assets=self.assets, 
+            game_state=self
         )
         self.clyde = Ghost(
-            screen=self.screen, x_coord=350, y_coord=400, target=self.target[3],
-            speed=self.ghost_speeds[3], img=self.assets.clyde_img, direct=2,
-            dead=False, box=True, id=3, player=self.player, assets=self.assets, game_state=self
+            screen=self.screen, 
+            x_coord=350,
+            y_coord=400,
+            target=self.target[3],
+            # speed=self.ghost_speeds[3], 
+            img=self.assets.clyde_img, 
+            direct=2,
+            dead=False, 
+            box=True, 
+            id=3, 
+            player=self.player, 
+            assets=self.assets, 
+            game_state=self
         )
         
-        # Khởi tạo danh sách ghosts sau khi tất cả ghost đã được tạo
+        # Khởi tạo danh sách ghosts
         self.ghosts = [self.blinky, self.inky, self.pinky, self.clyde]
         self.ghost_release_timer = [0, 60, 120, 180]  # Thời gian thả ghost (frame)
         
         self.direction_command = self.player.direction
         pygame.font.init()
         self.font = pygame.font.Font(None, 36)
-        
-        # Thêm font lớn hơn cho "Game Over" và "You Win!"
         self.game_over_font = pygame.font.Font(None, 72)
         
     def handle_events(self):
@@ -84,9 +122,9 @@ class GameState:
                 if play_button_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(100)  # Click feel
                     self.current_state = PLAYING
-                    self.startup_counter = 0 # Reset startup counter when starting play
-                    self.moving = False      # Ensure starting paused
-            
+                    self.startup_counter = 0
+                    self.moving = False
+                    
             elif self.current_state == PLAYING and self.moving and not self.game_over and not self.game_won:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
@@ -142,6 +180,10 @@ class GameState:
                 self.player.move_player()
                 self.player.check_collision()
                 
+                # Cập nhật target của ghost
+                for i in range(len(self.ghosts)):
+                    self.target[i] = [self.player.center_x, self.player.center_y]
+                
                 # Di chuyển các ghost dựa trên thời gian thả
                 for i, ghost in enumerate(self.ghosts):
                     if self.startup_counter >= self.ghost_release_timer[i]:
@@ -164,11 +206,9 @@ class GameState:
         self.screen.blit(self.assets.loading_img, (0, 0))
 
     def _render_menu(self):
-        # Draw background
         self.screen.blit(self.assets.menu_img, (0, 0))
         
         if self.button_hover:
-            # Calculate position for larger hover button
             hover_x = play_button_rect.x - (self.assets.play_button_hover.get_width() - play_button_rect.width) // 2
             hover_y = play_button_rect.y - (self.assets.play_button_hover.get_height() - play_button_rect.height) // 2
             self.screen.blit(self.assets.play_button_hover, (hover_x, hover_y))
@@ -177,74 +217,58 @@ class GameState:
 
     def _render_game(self):
         if self.game_over:
-            # Hiển thị màn hình "Game Over"
-            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            self.screen.fill((0, 0, 0))
             game_over_text = self.game_over_font.render("Game Over", True, (255, 0, 0))
             score_text = self.font.render(f"Final Score: {self.player.score}", True, (255, 255, 255))
             self.screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - 50))
             self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 50))
         elif self.game_won:
-            # Hiển thị màn hình "You Win!"
-            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            self.screen.fill((0, 0, 0))
             win_text = self.game_over_font.render("You Win!", True, (0, 255, 0))
             score_text = self.font.render(f"Final Score: {self.player.score}", True, (255, 255, 255))
             self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 50))
             self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 50))
         else:
-            self.screen.fill((0, 0, 0))  # Xóa màn hình với màu đen
+            self.screen.fill((0, 0, 0))
             for i in range(len(boards)):
                 for j in range(len(boards[i])):
                     image = self.assets.image_maps[boards[i][j]]
                     if boards[i][j] == 4 or boards[i][j] == 5:
                         self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
                     if boards[i][j] == 2 and not ((i, j) in [(7, 6), (7, 7), (8, 6), (8, 7)]):
-                        dot_x = j * CELL_SIZE + (CELL_SIZE - 25) // 2
-                        dot_y = i * CELL_SIZE + (CELL_SIZE - 25) // 2
+                        dot_x = j * CELL_SIZE
+                        dot_y = i * CELL_SIZE
                         self.screen.blit(image, (dot_x, dot_y))
                     if boards[i][j] == 3 and (not self.flicker):
-                        dot_x = j * CELL_SIZE + (CELL_SIZE - 45) // 2
-                        dot_y = i * CELL_SIZE + (CELL_SIZE - 45) // 2
+                        dot_x = j * CELL_SIZE
+                        dot_y = i * CELL_SIZE
                         self.screen.blit(image, (dot_x, dot_y))
                     if boards[i][j] == 0 or boards[i][j] == 1:
                         self.screen.blit(image, (j * CELL_SIZE, i * CELL_SIZE))
 
             self.player.draw_player()
             
-            # Vẽ các ghost
             for ghost in self.ghosts:
                 ghost.draw()
             
-            # Kiểm tra va chạm với người chơi
             for ghost in self.ghosts:
                 if ghost.check_player_collision():
                     self.game_over = True
             
             self.draw_misc()
             
-            # Vẽ chữ "READY!" nếu chưa di chuyển
             if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
                 if (self.startup_counter % 40) < 20:
                     self.screen.blit(self.assets.ready_img, (300, 400))
              
     def draw_misc(self):
-        # ----- Vẽ điểm số ----
-        # Vị trí để vẽ icon điểm số
         score_icon_x = 60
-        score_icon_y = HEIGHT - CELL_SIZE + 5 # Đặt ở hàng dưới cùng, căn giữa theo chiều dọc
-
-        # Vẽ icon điểm số
+        score_icon_y = HEIGHT - CELL_SIZE + 5
         self.screen.blit(self.assets.score_img, (score_icon_x, score_icon_y))
-
-        # Tạo text hiển thị điểm số
-        score_value_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255)) # Chỉ hiển thị giá trị điểm
-
-        # Vị trí để vẽ text điểm số (ngay bên phải icon)
-        score_text_x = score_icon_x + self.assets.score_img.get_width() + 2 # Cách icon 10 pixel
-        score_text_y = score_icon_y + (self.assets.score_img.get_height() - score_value_text.get_height()) // 2 # Căn giữa text với icon
-
-        # Vẽ text điểm số
+        score_value_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255))
+        score_text_x = score_icon_x + self.assets.score_img.get_width() + 2
+        score_text_y = score_icon_y + (self.assets.score_img.get_height() - score_value_text.get_height()) // 2
         self.screen.blit(score_value_text, (score_text_x, score_text_y))
         
-        # Mạng sống
         for i in range(self.player.lives):
             self.screen.blit(pygame.transform.scale(self.assets.lives_img, (CELL_SIZE - 10, CELL_SIZE - 10)), (520 + i*40, 705))
