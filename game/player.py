@@ -121,12 +121,16 @@ class Player:
             if boards[center_row][center_col] == 2:
                 boards[center_row][center_col] = 6  
                 self.score += 10
+                # Play pellet sound
+                self.game_state.assets.pellet_sound.play(3)
             elif boards[center_row][center_col] == 3:
                 boards[center_row][center_col] = 6 
                 self.score += 50
                 self.power = True
                 self.power_count = 0
                 self.eaten_ghosts = [False, False, False, False]
+                # Play power pellet sound
+                self.game_state.assets.power_pellet_sound.play(3)
             
             dots_remaining = any(2 in row or 3 in row for row in boards)
             if not dots_remaining and self.game_state:

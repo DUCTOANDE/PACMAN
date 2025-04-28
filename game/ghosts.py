@@ -32,7 +32,7 @@ class Ghost:
         self.game_state = game_state
         self.eyes_mode = False
         self.respawn_timer = 0
-        self.RESPAWN_DELAY = 10
+        self.RESPAWN_DELAY = 30
         self.COLLISION_FUDGE_FACTOR = CELL_SIZE // 2
         self.GRID_WIDTH = WIDTH // CELL_SIZE
         self.GRID_HEIGHT = (HEIGHT - CELL_SIZE) // CELL_SIZE
@@ -279,6 +279,8 @@ class Ghost:
                     self.eyes_mode = True
                     self.dead = False
                     self.respawn_timer = 0
+                    # Play eat ghost sound
+                    self.assets.eatghost_sound.play()
             elif not self.player.power and not self.dead and not self.eyes_mode:
                 self.player.lives -= 1
                 self.player.center_x = 300 + self.player.image_width // 2
@@ -287,6 +289,8 @@ class Ghost:
                 self.player.player_y = self.player.center_y - self.player.image_height // 2
                 self.player.direction = 0
                 self.reset_ghost()
+                # Play death sound
+                self.assets.death_sound.play()
                 if self.player.lives <= 0:
                     return True
         return False

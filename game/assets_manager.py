@@ -5,6 +5,9 @@ from .constants import WIDTH, HEIGHT, CELL_SIZE
 
 class AssetManager:
     def __init__(self):  
+        
+        # Khởi tạo pygame mixer để xử lý âm thanh
+        pygame.mixer.init()
         # Load map tiles
         self.image_maps = {}
         for i in range(0, 7):
@@ -65,3 +68,18 @@ class AssetManager:
         
         self.dead_img = pygame.image.load(r".\assets\ghost_images\dead.png")
         self.dead_img = pygame.transform.scale(self.dead_img, (CELL_SIZE, CELL_SIZE))
+        
+        # Load sound effects
+        self.beginning_sound = pygame.mixer.Sound(r".\assets\sound\pacman_beginning.wav")
+        self.death_sound = pygame.mixer.Sound(r".\assets\sound\pacman_death.wav")
+        self.eatghost_sound = pygame.mixer.Sound(r".\assets\sound\pacman_eatghost.wav")
+        self.pellet_sound = pygame.mixer.Sound(r".\assets\sound\pacman_pellet_low.wav")
+        self.power_pellet_sound = pygame.mixer.Sound(r".\assets\sound\pacman_power_pellet.wav")
+
+        
+        # Đường dẫn đến tệp nhạc nền cho cả loading và menu
+        self.background_music_path =  pygame.mixer.Sound(r".\assets\sound\background.mp3")
+        
+        # Tải âm thanh chiến thắng và thua cuộc
+        self.victory_sound = pygame.mixer.Sound(r".\assets\sound\victory.mp3")
+        self.defeat_sound = pygame.mixer.Sound(r".\assets\sound\gameover.mp3")
