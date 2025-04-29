@@ -103,4 +103,6 @@ Số điện thoại: + 84 825893064
 
 GitHub: https://github.com/DUCTOANDE
 
+Link download trò chơi: https://drive.google.com/file/d/1vkfisLtqQbq3UWcRhC9m3YeMCw_aq5q0/view?usp=sharing
+
 Chúng tôi rất mong nhận được phản hồi và đóng góp từ bạn để cải thiện dự án này.
