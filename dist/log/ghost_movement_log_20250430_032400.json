@@ -1,0 +1,58 @@
+{
+    "Blinky": {
+        "id": 0,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            }
+        ]
+    },
+    "Inky": {
+        "id": 1,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            }
+        ]
+    },
+    "Pinky": {
+        "id": 2,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            }
+        ]
+    },
+    "Clyde": {
+        "id": 3,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            }
+        ]
+    }
+}
