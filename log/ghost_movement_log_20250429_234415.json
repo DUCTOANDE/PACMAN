@@ -1,0 +1,2263 @@
+{
+    "Blinky": {
+        "id": 0,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            },
+            {
+                "step": 1,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 2,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            },
+            {
+                "step": 3,
+                "grid_pos": [
+                    6,
+                    4
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            },
+            {
+                "step": 4,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            },
+            {
+                "step": 5,
+                "grid_pos": [
+                    7,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 6,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 7,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 8,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 9,
+                "grid_pos": [
+                    6,
+                    4
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 10,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 11,
+                "grid_pos": [
+                    7,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 12,
+                "grid_pos": [
+                    8,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 13,
+                "grid_pos": [
+                    9,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 14,
+                "grid_pos": [
+                    9,
+                    4
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 15,
+                "grid_pos": [
+                    9,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 16,
+                "grid_pos": [
+                    8,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 17,
+                "grid_pos": [
+                    7,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 18,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    4,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 21,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 22,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 23,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    4,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    4,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    4,
+                    2
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    3,
+                    2
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 29,
+                "grid_pos": [
+                    2,
+                    2
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 30,
+                "grid_pos": [
+                    2,
+                    3
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 31,
+                "grid_pos": [
+                    2,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 32,
+                "grid_pos": [
+                    3,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 33,
+                "grid_pos": [
+                    4,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    4,
+                    1
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 35,
+                "grid_pos": [
+                    4,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 36,
+                "grid_pos": [
+                    3,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    4,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    4,
+                    1
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 39,
+                "grid_pos": [
+                    5,
+                    1
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    4,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 41,
+                "grid_pos": [
+                    5,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 42,
+                "grid_pos": [
+                    6,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 43,
+                "grid_pos": [
+                    7,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 44,
+                "grid_pos": [
+                    8,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    9,
+                    1
+                ],
+                "algorithm": "A*",
+                "direction": 3
+            },
+            {
+                "step": 46,
+                "grid_pos": [
+                    9,
+                    2
+                ],
+                "algorithm": "A*",
+                "direction": 0
+            },
+            {
+                "step": 47,
+                "grid_pos": [
+                    9,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 0
+            },
+            {
+                "step": 48,
+                "grid_pos": [
+                    8,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 49,
+                "grid_pos": [
+                    7,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 50,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 51,
+                "grid_pos": [
+                    5,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 52,
+                "grid_pos": [
+                    4,
+                    3
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 53,
+                "grid_pos": [
+                    4,
+                    4
+                ],
+                "algorithm": "A*",
+                "direction": 0
+            },
+            {
+                "step": 54,
+                "grid_pos": [
+                    3,
+                    4
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 55,
+                "grid_pos": [
+                    2,
+                    4
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            }
+        ]
+    },
+    "Inky": {
+        "id": 1,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            },
+            {
+                "step": 1,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 2,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 3,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 1
+            },
+            {
+                "step": 4,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 5,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 3
+            },
+            {
+                "step": 6,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 7,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 8,
+                "grid_pos": [
+                    4,
+                    4
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 9,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 10,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 11,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 12,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 13,
+                "grid_pos": [
+                    3,
+                    4
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 14,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 15,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 16,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 17,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 18,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 21,
+                "grid_pos": [
+                    4,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 22,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 23,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 29,
+                "grid_pos": [
+                    4,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 30,
+                "grid_pos": [
+                    4,
+                    8
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 31,
+                "grid_pos": [
+                    5,
+                    8
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 32,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 33,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 35,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 36,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Reset",
+                "direction": 2
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 1
+            },
+            {
+                "step": 39,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 1
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 41,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 42,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 43,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 44,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 46,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 47,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 48,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 49,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 50,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 0
+            },
+            {
+                "step": 51,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 1
+            },
+            {
+                "step": 52,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 0
+            },
+            {
+                "step": 53,
+                "grid_pos": [
+                    6,
+                    9
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 0
+            },
+            {
+                "step": 54,
+                "grid_pos": [
+                    6,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 0
+            },
+            {
+                "step": 55,
+                "grid_pos": [
+                    7,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 3
+            },
+            {
+                "step": 56,
+                "grid_pos": [
+                    8,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 3
+            },
+            {
+                "step": 57,
+                "grid_pos": [
+                    9,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 3
+            },
+            {
+                "step": 58,
+                "grid_pos": [
+                    8,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 59,
+                "grid_pos": [
+                    7,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 60,
+                "grid_pos": [
+                    6,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 61,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 62,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 63,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 1
+            },
+            {
+                "step": 64,
+                "grid_pos": [
+                    3,
+                    9
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 65,
+                "grid_pos": [
+                    2,
+                    9
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            }
+        ]
+    },
+    "Pinky": {
+        "id": 2,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            },
+            {
+                "step": 1,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 2,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 3,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 4,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 5,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 6,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 7,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "A*",
+                "direction": 0
+            },
+            {
+                "step": 8,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 9,
+                "grid_pos": [
+                    5,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 10,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 11,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 12,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 13,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 14,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 15,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 16,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 17,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 18,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 21,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 22,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 23,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Reset",
+                "direction": 2
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 29,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 30,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 31,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 32,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 33,
+                "grid_pos": [
+                    6,
+                    4
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 35,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 36,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    4,
+                    7
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 39,
+                "grid_pos": [
+                    4,
+                    8
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    3,
+                    8
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 41,
+                "grid_pos": [
+                    3,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 42,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 43,
+                "grid_pos": [
+                    4,
+                    8
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 44,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    4,
+                    8
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 46,
+                "grid_pos": [
+                    4,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 47,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 48,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 49,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 50,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 51,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 52,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 53,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 54,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Reset",
+                "direction": 2
+            },
+            {
+                "step": 55,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 56,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 57,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 58,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 59,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A*",
+                "direction": 1
+            }
+        ]
+    },
+    "Clyde": {
+        "id": 3,
+        "movements": [
+            {
+                "step": 0,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Initial",
+                "direction": 2
+            },
+            {
+                "step": 1,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 2,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 3,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 4,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 5,
+                "grid_pos": [
+                    6,
+                    8
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 6,
+                "grid_pos": [
+                    6,
+                    9
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 7,
+                "grid_pos": [
+                    6,
+                    10
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 8,
+                "grid_pos": [
+                    6,
+                    11
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 9,
+                "grid_pos": [
+                    6,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 10,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 11,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 12,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 13,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 14,
+                "grid_pos": [
+                    4,
+                    11
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 15,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 16,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 17,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 18,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 21,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 22,
+                "grid_pos": [
+                    4,
+                    11
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 23,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 29,
+                "grid_pos": [
+                    4,
+                    8
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 30,
+                "grid_pos": [
+                    4,
+                    7
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 31,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 32,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 33,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 35,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 36,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    3,
+                    4
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 39,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 41,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 42,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 43,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 44,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 46,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Reset",
+                "direction": 2
+            },
+            {
+                "step": 47,
+                "grid_pos": [
+                    8,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 48,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 49,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 50,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "BFS",
+                "direction": 1
+            },
+            {
+                "step": 51,
+                "grid_pos": [
+                    6,
+                    4
+                ],
+                "algorithm": "BFS",
+                "direction": 1
+            },
+            {
+                "step": 52,
+                "grid_pos": [
+                    6,
+                    3
+                ],
+                "algorithm": "BFS",
+                "direction": 1
+            },
+            {
+                "step": 53,
+                "grid_pos": [
+                    7,
+                    3
+                ],
+                "algorithm": "BFS",
+                "direction": 3
+            },
+            {
+                "step": 54,
+                "grid_pos": [
+                    8,
+                    3
+                ],
+                "algorithm": "BFS",
+                "direction": 3
+            },
+            {
+                "step": 55,
+                "grid_pos": [
+                    9,
+                    3
+                ],
+                "algorithm": "BFS",
+                "direction": 3
+            },
+            {
+                "step": 56,
+                "grid_pos": [
+                    9,
+                    4
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 57,
+                "grid_pos": [
+                    10,
+                    4
+                ],
+                "algorithm": "BFS",
+                "direction": 3
+            },
+            {
+                "step": 58,
+                "grid_pos": [
+                    10,
+                    5
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 59,
+                "grid_pos": [
+                    10,
+                    6
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 60,
+                "grid_pos": [
+                    10,
+                    7
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 61,
+                "grid_pos": [
+                    10,
+                    8
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 62,
+                "grid_pos": [
+                    10,
+                    9
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 63,
+                "grid_pos": [
+                    9,
+                    9
+                ],
+                "algorithm": "BFS",
+                "direction": 2
+            },
+            {
+                "step": 64,
+                "grid_pos": [
+                    9,
+                    10
+                ],
+                "algorithm": "BFS",
+                "direction": 0
+            },
+            {
+                "step": 65,
+                "grid_pos": [
+                    8,
+                    10
+                ],
+                "algorithm": "BFS",
+                "direction": 2
+            },
+            {
+                "step": 66,
+                "grid_pos": [
+                    7,
+                    10
+                ],
+                "algorithm": "BFS",
+                "direction": 2
+            }
+        ]
+    }
+}

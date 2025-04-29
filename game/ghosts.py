@@ -5,7 +5,6 @@ from queue import Queue
 from .player import Player
 from .game_controller import *
 from .assets_manager import *
-from .board import boards
 from .constants import CELL_SIZE, WIDTH, HEIGHT
 
 class Ghost:
@@ -38,9 +37,9 @@ class Ghost:
         self.GRID_HEIGHT = (HEIGHT - CELL_SIZE) // CELL_SIZE
         self.turns, self.in_box = self.check_collisions()
         self.ghost_rect = None
-        # Initialize movement log
+        # Khởi tạo nhật ký di chuyển
         self.movement_log = []
-        # Log initial position
+        # Ghi lại vị trí ban đầu
         self.movement_log.append({
             'step': 0,
             'grid_pos': self.get_grid_pos(),
@@ -61,18 +60,18 @@ class Ghost:
         return self.ghost_rect
 
     def check_collisions(self):
-        turns = [False, False, False, False]  # Right, Left, Up, Down
+        turns = [False, False, False, False]  # Phải, Trái, Lên, Xuống
         row = int(self.center_y // CELL_SIZE)
         col = int(self.center_x // CELL_SIZE)
 
-        if 0 <= row < len(boards) and 0 <= col < len(boards[0]):
-            if col + 1 < len(boards[0]) and boards[row][col + 1] not in [0, 1]:
+        if 0 <= row < len(self.game_state.current_board) and 0 <= col < len(self.game_state.current_board[0]):
+            if col + 1 < len(self.game_state.current_board[0]) and self.game_state.current_board[row][col + 1] not in [0, 1]:
                 turns[0] = True
-            if col - 1 >= 0 and boards[row][col - 1] not in [0, 1]:
+            if col - 1 >= 0 and self.game_state.current_board[row][col - 1] not in [0, 1]:
                 turns[1] = True
-            if row - 1 >= 0 and boards[row - 1][col] not in [0, 1]:
+            if row - 1 >= 0 and self.game_state.current_board[row - 1][col] not in [0, 1]:
                 turns[2] = True
-            if row + 1 < len(boards) and boards[row + 1][col] not in [0, 1]:
+            if row + 1 < len(self.game_state.current_board) and self.game_state.current_board[row + 1][col] not in [0, 1]:
                 turns[3] = True
 
         if self.center_x // CELL_SIZE >= self.GRID_WIDTH - 1 or self.center_x < 0:
@@ -89,8 +88,8 @@ class Ghost:
         neighbors = []
         for dr, dc in [(0, 1), (0, -1), (-1, 0), (1, 0)]:
             new_row, new_col = row + dr, col + dc
-            if (0 <= new_row < len(boards) and 0 <= new_col < len(boards[0]) and
-                boards[new_row][new_col] not in [0, 1]):
+            if (0 <= new_row < len(self.game_state.current_board) and 0 <= new_col < len(self.game_state.current_board[0]) and
+                self.game_state.current_board[new_row][new_col] not in [0, 1]):
                 occupied = any((new_row, new_col) == g.get_grid_pos() for g in self.game_state.ghosts if g != self)
                 if not occupied:
                     neighbors.append((new_row, new_col))
@@ -211,7 +210,7 @@ class Ghost:
                     path = self.dijkstra(ghost_grid, target)
                     algorithm_used = 'Dijkstra'
                 elif self.id == 2:
-                    if random.random() < 0.7:
+                    if random.random() < 0.5:
                         path = self.a_star(ghost_grid, target)
                         algorithm_used = 'A*'
                     else:
@@ -226,8 +225,9 @@ class Ghost:
             else:
                 self.direction = self.random_move()
                 algorithm_used = 'Random'
+                
 
-        # Log the movement
+        # Ghi lại di chuyển
         self.movement_log.append({
             'step': len(self.movement_log),
             'grid_pos': self.get_grid_pos(),
@@ -260,7 +260,7 @@ class Ghost:
         elif self.center_y < -CELL_SIZE // 2:
             self.center_y = HEIGHT
 
-        # Update log after movement
+        # Cập nhật nhật ký sau khi di chuyển
         self.movement_log[-1]['grid_pos'] = self.get_grid_pos()
 
     def reset_ghost(self):
@@ -274,7 +274,7 @@ class Ghost:
         self.in_box = True
         self.direction = 2
         self.respawn_timer = 0
-        # Log reset position
+        # Ghi lại vị trí đặt lại
         self.movement_log.append({
             'step': len(self.movement_log),
             'grid_pos': self.get_grid_pos(),
@@ -297,9 +297,9 @@ class Ghost:
     def get_flee_target(self, player_pos):
         max_dist = -1
         flee_pos = self.get_grid_pos()
-        for row in range(len(boards)):
-            for col in range(len(boards[0])):
-                if boards[row][col] not in [0, 1]:
+        for row in range(len(self.game_state.current_board)):
+            for col in range(len(self.game_state.current_board[0])):
+                if self.game_state.current_board[row][col] not in [0, 1]:
                     dist = abs(row - player_pos[0]) + abs(col - player_pos[1])
                     if dist > max_dist:
                         max_dist = dist

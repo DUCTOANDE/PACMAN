@@ -6,6 +6,7 @@ from collections import defaultdict
 import glob
 import matplotlib.patches as mpatches
 from matplotlib import font_manager
+import pygame
 
 # Đọc file JSON log
 def load_ghost_log(file_path):
@@ -158,109 +159,177 @@ def evaluate_algorithms(comparison):
 
     return scores
 
-# Trực quan hóa cải tiến với hiển thị tuần tự
-def visualize_evaluation(scores):
+# Trực quan hóa cải tiến
+def visualize_evaluation(scores, from_game=False):
     if not scores:
         print("Không có dữ liệu để trực quan hóa")
         return
 
     algos = list(scores.keys())
+    valid_algos = [algo for algo in algos if scores[algo]['steps'] > 0 or scores[algo]['avg_distance'] > 0 or scores[algo]['direction_changes'] > 0 or scores[algo]['total_score'] > 0]
+    if not valid_algos:
+        print("Không có dữ liệu hợp lệ để trực quan hóa sau khi lọc.")
+        return
+
+    algos = valid_algos
     total_scores = [scores[algo]['total_score'] for algo in algos]
     steps = [scores[algo]['steps'] for algo in algos]
     avg_distances = [scores[algo]['avg_distance'] for algo in algos]
     direction_changes = [scores[algo]['direction_changes'] for algo in algos]
 
+    # Quyết định có hiển thị biểu đồ không (chỉ khi không gọi từ game)
+    show_plots = False
+    if not from_game:
+        pygame.quit()  # Đóng Pygame trước khi hiển thị lời nhắc
+        while True:
+            choice = input("Bạn có muốn hiển thị các biểu đồ phân tích không? (y/n): ").strip().lower()
+            if choice == 'y':
+                show_plots = True
+                print("Sẽ hiển thị các biểu đồ...")
+                break
+            elif choice == 'n':
+                print("Sẽ không hiển thị biểu đồ. Bạn có thể tìm file ảnh trong thư mục 'log_analysis_results'.")
+                break
+            else:
+                print("Lựa chọn không hợp lệ. Vui lòng nhập 'y' hoặc 'n'.")
+    else:
+        print("Phân tích từ trò chơi: Chỉ lưu biểu đồ, không hiển thị.")
+
     # Thiết lập phong cách và font
     plt.style.use('ggplot')
     try:
-        font_manager.fontManager.addfont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf')
-        plt.rcParams['font.family'] = 'DejaVu Sans'
-    except:
+        font_paths = [
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
+            os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts', 'DejaVuSans-Bold.ttf'),
+            os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Microsoft\\Windows\\Fonts', 'DejaVuSans-Bold.ttf')
+        ]
+        found_font = False
+        for font_path in font_paths:
+            if os.path.exists(font_path):
+                font_manager.fontManager.addfont(font_path)
+                plt.rcParams['font.family'] = 'DejaVu Sans'
+                found_font = True
+                break
+        if not found_font:
+            print("Cảnh báo: DejaVu Sans không tìm thấy, sử dụng font mặc định.")
+            plt.rcParams['font.family'] = 'sans-serif'
+    except Exception as e:
+        print(f"Lỗi khi tải font: {e}. Sử dụng font mặc định.")
         plt.rcParams['font.family'] = 'sans-serif'
 
     # Màu sắc gradient
-    colors = ['#1abc9c' if score == max(total_scores) else '#e74c3c' if score == min(total_scores) else '#2980b9' for score in total_scores]
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    if total_scores:
+        max_score_val = max(total_scores)
+        min_score_val = min(total_scores)
+        colors = ['#1abc9c' if score == max_score_val else '#e74c3c' if score == min_score_val else '#2980b9' for score in total_scores]
+    else:
+        colors = ['#2980b9'] * len(algos)
 
+    # Danh sách các biểu đồ
+    plots_config = [
+        {
+            'title': 'Số bước di chuyển',
+            'data': steps,
+            'ylabel': 'Số bước',
+            'filename_base': 'steps',
+            'format': '.1f',
+            'avg': sum(steps) / len(steps) if steps else 0,
+            'avg_label': 'Trung bình: {:.1f}'
+        },
+        {
+            'title': 'Khoảng cách trung bình đến người chơi',
+            'data': avg_distances,
+            'ylabel': 'Khoảng cách (Manhattan)',
+            'filename_base': 'distance',
+            'format': '.2f',
+            'avg': sum(avg_distances) / len(avg_distances) if avg_distances else 0,
+            'avg_label': 'Trung bình: {:.2f}'
+        },
+        {
+            'title': 'Số lần thay đổi hướng',
+            'data': direction_changes,
+            'ylabel': 'Số lần thay đổi',
+            'filename_base': 'direction_changes',
+            'format': '.1f',
+            'avg': sum(direction_changes) / len(direction_changes) if direction_changes else 0,
+            'avg_label': 'Trung bình: {:.1f}'
+        },
+        {
+            'title': 'Tổng điểm các thuật toán',
+            'data': total_scores,
+            'ylabel': 'Điểm (0-100)',
+            'filename_base': 'total_score',
+            'format': '.1f',
+            'avg': None,
+            'ylim': (0, 120),
+            'legend': [
+                mpatches.Patch(color='#1abc9c', label='Thuật toán tối ưu'),
+                mpatches.Patch(color='#e74c3c', label='Thuật toán kém tối ưu'),
+                mpatches.Patch(color='#2980b9', label='Bình thường')
+            ]
+        }
+    ]
 
+    # Tạo và xử lý từng biểu đồ
+    save_dir = 'log_analysis_results'
+    os.makedirs(save_dir, exist_ok=True)
 
-    # Biểu đồ 1: Số bước
-    fig2 = plt.figure(figsize=(10, 8))
-    bars = plt.bar(algos, steps, color=colors, edgecolor='black', alpha=0.9)
-    plt.title('Số bước di chuyển', fontsize=20, pad=20, fontweight='bold')
-    plt.ylabel('Số bước', fontsize=16)
-    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
-    for bar, value in zip(bars, steps):
-        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(steps)*0.03, 
-                 f'{value:.1f}', ha='center', fontsize=14, fontweight='bold', color='black')
-    avg_steps = sum(steps) / len(steps) if steps else 0
-    plt.axhline(avg_steps, color='#8e44ad', linestyle='--', linewidth=2, label=f'Trung bình: {avg_steps:.1f}')
-    plt.legend(fontsize=12, frameon=True)
-    plt.xlabel('Thuật toán', fontsize=16)
-    plt.xticks(rotation=45, fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.gca().set_facecolor('#f5f6fa')
-    fig2.savefig(os.path.join('log_analysis_results', f'steps_{timestamp}.png'), dpi=300, bbox_inches='tight')
-    plt.show()  # Đợi người dùng đóng cửa sổ
+    for plot_info in plots_config:
+        if not plot_info['data']:
+            print(f"Bỏ qua biểu đồ '{plot_info['title']}' do không có dữ liệu.")
+            continue
 
-    # Biểu đồ 2: Khoảng cách trung bình
-    fig3 = plt.figure(figsize=(10, 8))
-    bars = plt.bar(algos, avg_distances, color=colors, edgecolor='black', alpha=0.9)
-    plt.title('Khoảng cách trung bình đến người chơi', fontsize=20, pad=20, fontweight='bold')
-    plt.ylabel('Khoảng cách (Manhattan)', fontsize=16)
-    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
-    for bar, value in zip(bars, avg_distances):
-        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(avg_distances)*0.03, 
-                 f'{value:.2f}', ha='center', fontsize=14, fontweight='bold', color='black')
-    avg_distance = sum(avg_distances) / len(avg_distances) if avg_distances else 0
-    plt.axhline(avg_distance, color='#8e44ad', linestyle='--', linewidth=2, label=f'Trung bình: {avg_distance:.2f}')
-    plt.legend(fontsize=12, frameon=True)
-    plt.xlabel('Thuật toán', fontsize=16)
-    plt.xticks(rotation=45, fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.gca().set_facecolor('#f5f6fa')
-    fig3.savefig(os.path.join('log_analysis_results', f'distance_{timestamp}.png'), dpi=300, bbox_inches='tight')
-    plt.show()  # Đợi người dùng đóng cửa sổ
+        fig = plt.figure(figsize=(8, 6))
+        bars = plt.bar(algos, plot_info['data'], color=colors, edgecolor='black', alpha=0.9)
+        plt.title(plot_info['title'], fontsize=16, pad=20, fontweight='bold')
+        plt.ylabel(plot_info['ylabel'], fontsize=12)
+        plt.xlabel('Thuật toán', fontsize=12)
+        plt.xticks(rotation=45, ha='right', fontsize=10)
+        plt.yticks(fontsize=10)
+        plt.grid(True, axis='y', linestyle='--', alpha=0.6)
+        plt.gca().set_facecolor('#f5f6fa')
+        plt.tight_layout(pad=1.5)
 
-    # Biểu đồ 3: Số lần thay đổi hướng
-    fig4 = plt.figure(figsize=(10, 8))
-    bars = plt.bar(algos, direction_changes, color=colors, edgecolor='black', alpha=0.9)
-    plt.title('Số lần thay đổi hướng', fontsize=20, pad=20, fontweight='bold')
-    plt.ylabel('Số lần thay đổi', fontsize=16)
-    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
-    for bar, value in zip(bars, direction_changes):
-        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(direction_changes)*0.03, 
-                 f'{value:.1f}', ha='center', fontsize=14, fontweight='bold', color='black')
-    avg_changes = sum(direction_changes) / len(direction_changes) if direction_changes else 0
-    plt.axhline(avg_changes, color='#8e44ad', linestyle='--', linewidth=2, label=f'Trung bình: {avg_changes:.1f}')
-    plt.legend(fontsize=12, frameon=True)
-    plt.xlabel('Thuật toán', fontsize=16)
-    plt.xticks(rotation=45, fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.gca().set_facecolor('#f5f6fa')
-    fig4.savefig(os.path.join('log_analysis_results', f'direction_changes_{timestamp}.png'), dpi=300, bbox_inches='tight')
-    plt.show()  # Đợi người dùng đóng cửa sổ
-    
-    # Biểu đồ 4: Tổng điểm
-    fig1 = plt.figure(figsize=(10, 8))
-    bars = plt.bar(algos, total_scores, color=colors, edgecolor='black', alpha=0.9)
-    plt.title('Tổng điểm các thuật toán', fontsize=20, pad=20, fontweight='bold')
-    plt.ylabel('Điểm (0-100)', fontsize=16)
-    plt.ylim(0, 120)
-    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
-    for bar, score in zip(bars, total_scores):
-        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 3, f'{score:.1f}', 
-                 ha='center', fontsize=14, fontweight='bold', color='black')
-    best_patch = mpatches.Patch(color='#1abc9c', label='Thuật toán tối ưu')
-    worst_patch = mpatches.Patch(color='#e74c3c', label='Thuật toán kém tối ưu')
-    normal_patch = mpatches.Patch(color='#2980b9', label='Bình thường')
-    plt.legend(handles=[best_patch, worst_patch, normal_patch], fontsize=12, loc='upper right', frameon=True)
-    plt.xlabel('Thuật toán', fontsize=16)
-    plt.xticks(rotation=45, fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.gca().set_facecolor('#f5f6fa')
-    fig1.savefig(os.path.join('log_analysis_results', f'total_score_{timestamp}.png'), dpi=300, bbox_inches='tight')
-    plt.show()  # Đợi người dùng đóng cửa sổ
+        max_value = max(plot_info['data']) if plot_info['data'] else 1
+        for bar, value in zip(bars, plot_info['data']):
+            text_y = bar.get_height() + max_value * 0.02
+            plt.text(bar.get_x() + bar.get_width()/2, text_y,
+                     f'{value:{plot_info["format"]}}', ha='center', va='bottom',
+                     fontsize=10, fontweight='bold', color='black')
+
+        if plot_info.get('avg') is not None:
+            plt.axhline(plot_info['avg'], color='#8e44ad', linestyle='--', linewidth=2, label=plot_info['avg_label'].format(plot_info['avg']))
+            if 'legend' in plot_info:
+                handles, labels = plt.gca().get_legend_handles_labels()
+                handles.extend(plot_info['legend'])
+                plt.legend(handles=handles, fontsize=10, loc='upper right', frameon=True)
+            else:
+                plt.legend(fontsize=10, frameon=True)
+        elif 'legend' in plot_info:
+            plt.legend(handles=plot_info['legend'], fontsize=10, loc='upper right', frameon=True)
+
+        if 'ylim' in plot_info:
+            plt.ylim(plot_info['ylim'])
+        else:
+            current_ylim = plt.gca().get_ylim()
+            plt.ylim(current_ylim[0], current_ylim[1] * 1.1)
+
+        # Lưu biểu đồ
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        filename = f"{plot_info['filename_base']}_{timestamp}.png"
+        filepath = os.path.join(save_dir, filename)
+        try:
+            fig.savefig(filepath, dpi=300, bbox_inches='tight')
+            print(f"Đã lưu biểu đồ vào: {filepath}")
+        except Exception as e:
+            print(f"Lỗi khi lưu biểu đồ {filename}: {e}")
+
+        # Chỉ hiển thị biểu đồ nếu chạy độc lập và người dùng chọn 'y'
+        if not from_game and show_plots:
+            print(f"Hiển thị biểu đồ: {plot_info['title']}")
+            plt.show()
+
+        plt.close(fig)  # Đóng figure để giải phóng bộ nhớ
 
 # Hàm chính
 def main_analysis():
@@ -288,29 +357,38 @@ def main_analysis():
             print(f"  Khoảng cách trung bình đến người chơi: {metric['avg_distance']:.2f}")
             print(f"  Số lần thay đổi hướng: {metric['direction_changes']}")
             print("  Tần suất thuật toán:")
-            for algo, count in metric['algorithm_counts'].items():
-                print(f"    {algo}: {count} bước")
+            if metric.get('algorithm_counts'):
+                for algo, count in metric['algorithm_counts'].items():
+                    print(f"    {algo}: {count} bước")
+            else:
+                print("    Không có dữ liệu tần suất thuật toán.")
 
         comparison = compare_algorithms(metrics)
 
         print("\nSo sánh các thuật toán:")
         for algo, comp in comparison.items():
-            print(f"\n{algo}:")
-            print(f"  Tổng số bước: {comp['steps']:.2f}")
-            print(f"  Khoảng cách trung bình đến người chơi: {comp['avg_distance']:.2f}")
-            print(f"  Số lần thay đổi hướng: {comp['direction_changes']:.2f}")
+            if comp.get('count', 0) > 0 or comp.get('steps', 0) > 0:
+                print(f"\n{algo}:")
+                print(f"  Tổng số bước (ước tính): {comp.get('steps', 0):.2f}")
+                print(f"  Khoảng cách trung bình (ước tính): {comp.get('avg_distance', 0):.2f}")
+                print(f"  Số lần thay đổi hướng (ước tính): {comp.get('direction_changes', 0):.2f}")
+                print(f"  Tỷ lệ sử dụng (ước tính): {comp.get('count', 0):.2f}")
+            else:
+                print(f"\n{algo}: Không được sử dụng trong log này.")
 
         save_comparison_to_file(comparison)
+        scores = evaluate_algorithms(comparison)
 
-        choice = input("Bạn có muốn trực quan hóa kết quả so sánh? (y/n): ")
-        if choice.lower() == 'y':
-            scores = evaluate_algorithms(comparison)
-            visualize_evaluation(scores)
+        print("\nĐánh giá điểm số thuật toán:")
+        for algo, score_data in scores.items():
+            if comparison.get(algo, {}).get('count', 0) > 0 or comparison.get(algo, {}).get('steps', 0) > 0:
+                print(f"\n{algo}:")
+                print(f"  Tổng điểm: {score_data['total_score']:.2f}")
+
+        if scores:
+            visualize_evaluation(scores, from_game=False)
+        else:
+            print("Không có điểm số để trực quan hóa.")
 
 if __name__ == "__main__":
-    try:
-        import matplotlib.pyplot
-    except ImportError:
-        print("Lỗi: Thư viện matplotlib chưa được cài đặt. Cài đặt bằng: pip install matplotlib")
-    else:
-        main_analysis()
+    main_analysis()
