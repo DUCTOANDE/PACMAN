@@ -1,1 +1,6 @@
 /venv
+/dist
+/build
+/log
+/log_analysis_results
+/main.spec
