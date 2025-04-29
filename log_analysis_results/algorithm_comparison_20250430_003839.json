@@ -1,0 +1,26 @@
+{
+    "A*": {
+        "steps": 64.0,
+        "avg_distance": 4.8331077781653295,
+        "direction_changes": 35.78260869565217,
+        "count": 1.0869565217391304
+    },
+    "Dijkstra": {
+        "steps": 40,
+        "avg_distance": 3.261904761904762,
+        "direction_changes": 27,
+        "count": 1
+    },
+    "BFS": {
+        "steps": 38,
+        "avg_distance": 1.3170731707317074,
+        "direction_changes": 27,
+        "count": 1
+    },
+    "Random": {
+        "steps": 41.0,
+        "avg_distance": 5.553191489361702,
+        "direction_changes": 28.52173913043478,
+        "count": 0.8913043478260869
+    }
+}

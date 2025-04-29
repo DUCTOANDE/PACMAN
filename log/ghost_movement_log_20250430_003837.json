@@ -69,16 +69,16 @@
                 "step": 7,
                 "grid_pos": [
                     4,
-                    2
+                    4
                 ],
                 "algorithm": "A*",
-                "direction": 1
+                "direction": 0
             },
             {
                 "step": 8,
                 "grid_pos": [
                     3,
-                    2
+                    4
                 ],
                 "algorithm": "A*",
                 "direction": 2
@@ -87,7 +87,7 @@
                 "step": 9,
                 "grid_pos": [
                     2,
-                    2
+                    4
                 ],
                 "algorithm": "A*",
                 "direction": 2
@@ -98,8 +98,8 @@
                     2,
                     3
                 ],
-                "algorithm": "Random",
-                "direction": 0
+                "algorithm": "A*",
+                "direction": 1
             },
             {
                 "step": 11,
@@ -131,26 +131,26 @@
             {
                 "step": 14,
                 "grid_pos": [
-                    3,
-                    2
+                    2,
+                    3
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 0
             },
             {
                 "step": 15,
                 "grid_pos": [
-                    4,
-                    2
+                    2,
+                    4
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 0
             },
             {
                 "step": 16,
                 "grid_pos": [
-                    3,
-                    2
+                    1,
+                    4
                 ],
                 "algorithm": "Random",
                 "direction": 2
@@ -158,116 +158,116 @@
             {
                 "step": 17,
                 "grid_pos": [
-                    2,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 18,
-                "grid_pos": [
-                    3,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 19,
-                "grid_pos": [
-                    4,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 20,
-                "grid_pos": [
-                    3,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 21,
-                "grid_pos": [
-                    2,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 22,
-                "grid_pos": [
-                    3,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 23,
-                "grid_pos": [
-                    2,
-                    2
-                ],
-                "algorithm": "A*",
-                "direction": 2
-            },
-            {
-                "step": 24,
-                "grid_pos": [
-                    3,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 25,
-                "grid_pos": [
-                    2,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 26,
-                "grid_pos": [
-                    3,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 27,
-                "grid_pos": [
-                    2,
-                    2
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 28,
-                "grid_pos": [
-                    2,
-                    3
+                    1,
+                    5
                 ],
                 "algorithm": "Random",
                 "direction": 0
             },
             {
+                "step": 18,
+                "grid_pos": [
+                    1,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    1,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    1,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 21,
+                "grid_pos": [
+                    1,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 22,
+                "grid_pos": [
+                    1,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 23,
+                "grid_pos": [
+                    1,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    1,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    1,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    1,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    1,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    1,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
                 "step": 29,
                 "grid_pos": [
-                    2,
-                    4
+                    1,
+                    7
                 ],
                 "algorithm": "Random",
                 "direction": 0
@@ -275,125 +275,125 @@
             {
                 "step": 30,
                 "grid_pos": [
-                    3,
-                    4
+                    1,
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 3
+                "algorithm": "Random",
+                "direction": 0
             },
             {
                 "step": 31,
                 "grid_pos": [
-                    4,
-                    4
+                    1,
+                    9
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 3
+                "algorithm": "Random",
+                "direction": 0
             },
             {
                 "step": 32,
                 "grid_pos": [
-                    4,
-                    5
+                    1,
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 0
+                "algorithm": "Random",
+                "direction": 1
             },
             {
                 "step": 33,
                 "grid_pos": [
-                    4,
-                    4
+                    1,
+                    7
                 ],
-                "algorithm": "Random (Eyes)",
+                "algorithm": "Random",
                 "direction": 1
             },
             {
                 "step": 34,
                 "grid_pos": [
-                    3,
-                    4
+                    1,
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 2
+                "algorithm": "Random",
+                "direction": 0
             },
             {
                 "step": 35,
                 "grid_pos": [
-                    4,
-                    4
+                    1,
+                    9
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 3
+                "algorithm": "Random",
+                "direction": 0
             },
             {
                 "step": 36,
                 "grid_pos": [
-                    4,
-                    3
+                    1,
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
+                "algorithm": "Random",
                 "direction": 1
             },
             {
                 "step": 37,
                 "grid_pos": [
-                    4,
-                    2
+                    1,
+                    7
                 ],
-                "algorithm": "Random (Eyes)",
+                "algorithm": "Random",
                 "direction": 1
             },
             {
                 "step": 38,
                 "grid_pos": [
-                    4,
-                    3
+                    1,
+                    6
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 0
+                "algorithm": "Random",
+                "direction": 1
             },
             {
                 "step": 39,
                 "grid_pos": [
-                    4,
-                    2
+                    1,
+                    7
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 1
+                "algorithm": "Random",
+                "direction": 0
             },
             {
                 "step": 40,
                 "grid_pos": [
-                    4,
-                    3
+                    1,
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
+                "algorithm": "Random",
                 "direction": 0
             },
             {
                 "step": 41,
                 "grid_pos": [
-                    4,
-                    4
+                    1,
+                    9
                 ],
-                "algorithm": "A* (Eyes)",
+                "algorithm": "Random",
                 "direction": 0
             },
             {
                 "step": 42,
                 "grid_pos": [
-                    4,
-                    5
+                    2,
+                    9
                 ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
+                "algorithm": "Random",
+                "direction": 3
             },
             {
                 "step": 43,
                 "grid_pos": [
-                    5,
-                    5
+                    3,
+                    9
                 ],
                 "algorithm": "A* (Eyes)",
                 "direction": 3
@@ -401,26 +401,26 @@
             {
                 "step": 44,
                 "grid_pos": [
-                    6,
-                    5
+                    3,
+                    8
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    4,
+                    8
                 ],
                 "algorithm": "A* (Eyes)",
                 "direction": 3
             },
             {
-                "step": 45,
-                "grid_pos": [
-                    6,
-                    6
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
                 "step": 46,
                 "grid_pos": [
-                    7,
-                    6
+                    5,
+                    8
                 ],
                 "algorithm": "A* (Eyes)",
                 "direction": 3
@@ -429,25 +429,124 @@
                 "step": 47,
                 "grid_pos": [
                     6,
-                    6
+                    8
                 ],
-                "algorithm": "Random (Eyes)",
-                "direction": 2
+                "algorithm": "A* (Eyes)",
+                "direction": 3
             },
             {
                 "step": 48,
                 "grid_pos": [
-                    7,
-                    6
+                    6,
+                    7
                 ],
                 "algorithm": "A* (Eyes)",
-                "direction": 3
+                "direction": 1
             },
             {
                 "step": 49,
                 "grid_pos": [
                     6,
                     6
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 50,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 51,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 52,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 53,
+                "grid_pos": [
+                    6,
+                    4
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 54,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 55,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 56,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 57,
+                "grid_pos": [
+                    4,
+                    6
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 58,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 1
+            },
+            {
+                "step": 59,
+                "grid_pos": [
+                    5,
+                    5
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 60,
+                "grid_pos": [
+                    4,
+                    5
                 ],
                 "algorithm": "Random (Eyes)",
                 "direction": 2
@@ -532,26 +631,26 @@
             {
                 "step": 8,
                 "grid_pos": [
-                    3,
-                    5
+                    4,
+                    4
                 ],
                 "algorithm": "Dijkstra",
-                "direction": 2
+                "direction": 1
             },
             {
                 "step": 9,
                 "grid_pos": [
                     4,
-                    5
+                    3
                 ],
-                "algorithm": "Random",
-                "direction": 3
+                "algorithm": "Dijkstra",
+                "direction": 1
             },
             {
                 "step": 10,
                 "grid_pos": [
                     4,
-                    4
+                    2
                 ],
                 "algorithm": "Dijkstra",
                 "direction": 1
@@ -563,7 +662,7 @@
                     3
                 ],
                 "algorithm": "Random",
-                "direction": 1
+                "direction": 0
             },
             {
                 "step": 12,
@@ -586,71 +685,71 @@
             {
                 "step": 14,
                 "grid_pos": [
-                    3,
-                    5
+                    4,
+                    4
                 ],
                 "algorithm": "Dijkstra",
-                "direction": 2
+                "direction": 1
             },
             {
                 "step": 15,
                 "grid_pos": [
-                    4,
-                    5
+                    3,
+                    4
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 2
             },
             {
                 "step": 16,
                 "grid_pos": [
-                    4,
+                    2,
                     4
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 17,
+                "grid_pos": [
+                    2,
+                    3
                 ],
                 "algorithm": "Random",
                 "direction": 1
             },
             {
-                "step": 17,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
                 "step": 18,
                 "grid_pos": [
-                    3,
-                    5
+                    2,
+                    2
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    2,
+                    3
                 ],
                 "algorithm": "Random",
                 "direction": 0
             },
             {
-                "step": 19,
-                "grid_pos": [
-                    4,
-                    5
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
                 "step": 20,
                 "grid_pos": [
-                    5,
-                    5
+                    2,
+                    2
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 1
             },
             {
                 "step": 21,
                 "grid_pos": [
-                    6,
-                    5
+                    3,
+                    2
                 ],
                 "algorithm": "Random",
                 "direction": 3
@@ -658,83 +757,83 @@
             {
                 "step": 22,
                 "grid_pos": [
-                    6,
-                    6
-                ],
-                "algorithm": "Random",
-                "direction": 0
-            },
-            {
-                "step": 23,
-                "grid_pos": [
-                    6,
-                    7
-                ],
-                "algorithm": "Dijkstra",
-                "direction": 0
-            },
-            {
-                "step": 24,
-                "grid_pos": [
-                    6,
-                    8
-                ],
-                "algorithm": "Random",
-                "direction": 0
-            },
-            {
-                "step": 25,
-                "grid_pos": [
-                    5,
-                    8
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 26,
-                "grid_pos": [
-                    6,
-                    8
+                    4,
+                    2
                 ],
                 "algorithm": "Random",
                 "direction": 3
             },
             {
-                "step": 27,
+                "step": 23,
                 "grid_pos": [
-                    6,
-                    7
+                    4,
+                    3
                 ],
                 "algorithm": "Random",
-                "direction": 1
+                "direction": 0
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    4,
+                    4
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    3,
+                    4
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 26,
+                "grid_pos": [
+                    3,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    4,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
             },
             {
                 "step": 28,
                 "grid_pos": [
-                    7,
-                    7
+                    5,
+                    5
                 ],
-                "algorithm": "Random",
+                "algorithm": "A* (Eyes)",
                 "direction": 3
             },
             {
                 "step": 29,
                 "grid_pos": [
                     6,
-                    7
+                    5
                 ],
-                "algorithm": "Dijkstra",
-                "direction": 2
+                "algorithm": "A* (Eyes)",
+                "direction": 3
             },
             {
                 "step": 30,
                 "grid_pos": [
-                    7,
-                    7
+                    6,
+                    6
                 ],
-                "algorithm": "Random",
-                "direction": 3
+                "algorithm": "A* (Eyes)",
+                "direction": 0
             },
             {
                 "step": 31,
@@ -742,47 +841,11 @@
                     6,
                     7
                 ],
-                "algorithm": "Dijkstra",
-                "direction": 2
-            },
-            {
-                "step": 32,
-                "grid_pos": [
-                    6,
-                    8
-                ],
-                "algorithm": "Random",
+                "algorithm": "A* (Eyes)",
                 "direction": 0
             },
             {
-                "step": 33,
-                "grid_pos": [
-                    5,
-                    8
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 34,
-                "grid_pos": [
-                    6,
-                    8
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 35,
-                "grid_pos": [
-                    6,
-                    7
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 36,
+                "step": 32,
                 "grid_pos": [
                     7,
                     7
@@ -791,7 +854,25 @@
                 "direction": 3
             },
             {
-                "step": 37,
+                "step": 33,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Random (Eyes)",
+                "direction": 2
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 35,
                 "grid_pos": [
                     7,
                     6
@@ -800,13 +881,31 @@
                 "direction": 1
             },
             {
-                "step": 38,
+                "step": 36,
                 "grid_pos": [
                     7,
                     7
                 ],
                 "algorithm": "Reset",
                 "direction": 2
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 3
             },
             {
                 "step": 39,
@@ -823,7 +922,7 @@
                     6,
                     6
                 ],
-                "algorithm": "Random",
+                "algorithm": "Dijkstra",
                 "direction": 2
             },
             {
@@ -834,24 +933,6 @@
                 ],
                 "algorithm": "Random",
                 "direction": 3
-            },
-            {
-                "step": 42,
-                "grid_pos": [
-                    7,
-                    7
-                ],
-                "algorithm": "Random",
-                "direction": 0
-            },
-            {
-                "step": 43,
-                "grid_pos": [
-                    6,
-                    7
-                ],
-                "algorithm": "Random",
-                "direction": 2
             }
         ]
     },
@@ -870,17 +951,17 @@
             {
                 "step": 1,
                 "grid_pos": [
-                    7,
-                    6
+                    8,
+                    7
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 0
             },
             {
                 "step": 2,
                 "grid_pos": [
-                    6,
-                    6
+                    7,
+                    7
                 ],
                 "algorithm": "Random",
                 "direction": 2
@@ -891,8 +972,8 @@
                     6,
                     7
                 ],
-                "algorithm": "A*",
-                "direction": 0
+                "algorithm": "Dijkstra",
+                "direction": 2
             },
             {
                 "step": 4,
@@ -906,98 +987,98 @@
             {
                 "step": 5,
                 "grid_pos": [
-                    6,
-                    7
-                ],
-                "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 6,
-                "grid_pos": [
-                    7,
-                    7
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 7,
-                "grid_pos": [
-                    7,
-                    6
-                ],
-                "algorithm": "Dijkstra",
-                "direction": 1
-            },
-            {
-                "step": 8,
-                "grid_pos": [
-                    6,
-                    6
+                    5,
+                    8
                 ],
                 "algorithm": "Random",
                 "direction": 2
             },
             {
-                "step": 9,
+                "step": 6,
                 "grid_pos": [
-                    6,
-                    5
+                    4,
+                    8
                 ],
-                "algorithm": "Random",
-                "direction": 1
+                "algorithm": "A*",
+                "direction": 2
             },
             {
-                "step": 10,
+                "step": 7,
                 "grid_pos": [
-                    6,
-                    6
+                    3,
+                    8
+                ],
+                "algorithm": "A*",
+                "direction": 2
+            },
+            {
+                "step": 8,
+                "grid_pos": [
+                    3,
+                    9
                 ],
                 "algorithm": "A*",
                 "direction": 0
             },
             {
-                "step": 11,
+                "step": 9,
                 "grid_pos": [
-                    6,
-                    5
+                    2,
+                    9
                 ],
                 "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 12,
-                "grid_pos": [
-                    5,
-                    5
-                ],
-                "algorithm": "A*",
                 "direction": 2
             },
             {
-                "step": 13,
+                "step": 10,
                 "grid_pos": [
-                    6,
-                    5
+                    3,
+                    9
                 ],
                 "algorithm": "Random",
                 "direction": 3
             },
             {
+                "step": 11,
+                "grid_pos": [
+                    2,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 12,
+                "grid_pos": [
+                    2,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 13,
+                "grid_pos": [
+                    2,
+                    11
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
                 "step": 14,
                 "grid_pos": [
-                    5,
-                    5
+                    3,
+                    11
                 ],
-                "algorithm": "A*",
-                "direction": 2
+                "algorithm": "Random",
+                "direction": 3
             },
             {
                 "step": 15,
                 "grid_pos": [
-                    4,
-                    5
+                    2,
+                    11
                 ],
                 "algorithm": "Random",
                 "direction": 2
@@ -1005,8 +1086,8 @@
             {
                 "step": 16,
                 "grid_pos": [
-                    5,
-                    5
+                    3,
+                    11
                 ],
                 "algorithm": "Random",
                 "direction": 3
@@ -1015,142 +1096,142 @@
                 "step": 17,
                 "grid_pos": [
                     4,
-                    5
+                    11
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 18,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 19,
+                "grid_pos": [
+                    4,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 20,
+                "grid_pos": [
+                    3,
+                    9
                 ],
                 "algorithm": "Random",
                 "direction": 2
             },
             {
-                "step": 18,
-                "grid_pos": [
-                    5,
-                    5
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 19,
-                "grid_pos": [
-                    6,
-                    5
-                ],
-                "algorithm": "Random",
-                "direction": 3
-            },
-            {
-                "step": 20,
-                "grid_pos": [
-                    6,
-                    6
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
                 "step": 21,
                 "grid_pos": [
-                    7,
-                    6
+                    4,
+                    9
                 ],
-                "algorithm": "A* (Eyes)",
+                "algorithm": "Random",
                 "direction": 3
             },
             {
                 "step": 22,
                 "grid_pos": [
-                    8,
-                    6
+                    3,
+                    9
                 ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
+                "algorithm": "Random",
+                "direction": 2
             },
             {
                 "step": 23,
                 "grid_pos": [
-                    8,
-                    6
-                ],
-                "algorithm": "Reset",
-                "direction": 2
-            },
-            {
-                "step": 24,
-                "grid_pos": [
-                    7,
-                    6
-                ],
-                "algorithm": "Dijkstra",
-                "direction": 2
-            },
-            {
-                "step": 25,
-                "grid_pos": [
-                    6,
-                    6
-                ],
-                "algorithm": "Dijkstra",
-                "direction": 2
-            },
-            {
-                "step": 26,
-                "grid_pos": [
-                    7,
-                    6
+                    4,
+                    9
                 ],
                 "algorithm": "Random",
                 "direction": 3
             },
             {
-                "step": 27,
+                "step": 24,
                 "grid_pos": [
-                    6,
-                    6
+                    4,
+                    8
                 ],
-                "algorithm": "Dijkstra",
-                "direction": 2
+                "algorithm": "Random",
+                "direction": 1
             },
             {
-                "step": 28,
+                "step": 25,
                 "grid_pos": [
-                    7,
-                    6
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 29,
-                "grid_pos": [
-                    8,
-                    6
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 30,
-                "grid_pos": [
-                    8,
-                    6
-                ],
-                "algorithm": "Reset",
-                "direction": 2
-            },
-            {
-                "step": 31,
-                "grid_pos": [
-                    8,
-                    7
+                    4,
+                    9
                 ],
                 "algorithm": "Random",
                 "direction": 0
             },
             {
-                "step": 32,
+                "step": 26,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 0
+            },
+            {
+                "step": 27,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 28,
+                "grid_pos": [
+                    4,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 29,
+                "grid_pos": [
+                    5,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 30,
+                "grid_pos": [
+                    6,
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 31,
                 "grid_pos": [
                     7,
-                    7
+                    10
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 32,
+                "grid_pos": [
+                    6,
+                    10
                 ],
                 "algorithm": "Random",
                 "direction": 2
@@ -1159,25 +1240,25 @@
                 "step": 33,
                 "grid_pos": [
                     7,
-                    6
+                    10
                 ],
                 "algorithm": "Random",
-                "direction": 1
+                "direction": 3
             },
             {
                 "step": 34,
                 "grid_pos": [
-                    6,
-                    6
+                    8,
+                    10
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 3
             },
             {
                 "step": 35,
                 "grid_pos": [
-                    7,
-                    6
+                    9,
+                    10
                 ],
                 "algorithm": "Random",
                 "direction": 3
@@ -1185,11 +1266,101 @@
             {
                 "step": 36,
                 "grid_pos": [
-                    6,
-                    6
+                    9,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 37,
+                "grid_pos": [
+                    10,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 38,
+                "grid_pos": [
+                    9,
+                    9
                 ],
                 "algorithm": "Random",
                 "direction": 2
+            },
+            {
+                "step": 39,
+                "grid_pos": [
+                    10,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    9,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 41,
+                "grid_pos": [
+                    10,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 42,
+                "grid_pos": [
+                    11,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 43,
+                "grid_pos": [
+                    10,
+                    9
+                ],
+                "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 44,
+                "grid_pos": [
+                    10,
+                    8
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 45,
+                "grid_pos": [
+                    10,
+                    7
+                ],
+                "algorithm": "Random",
+                "direction": 1
+            },
+            {
+                "step": 46,
+                "grid_pos": [
+                    10,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 1
             }
         ]
     },
@@ -1208,11 +1379,11 @@
             {
                 "step": 1,
                 "grid_pos": [
-                    8,
-                    6
+                    7,
+                    7
                 ],
                 "algorithm": "Random",
-                "direction": 1
+                "direction": 2
             },
             {
                 "step": 2,
@@ -1221,7 +1392,7 @@
                     6
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 1
             },
             {
                 "step": 3,
@@ -1235,11 +1406,11 @@
             {
                 "step": 4,
                 "grid_pos": [
-                    7,
-                    6
+                    6,
+                    5
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 1
             },
             {
                 "step": 5,
@@ -1247,8 +1418,8 @@
                     6,
                     6
                 ],
-                "algorithm": "Dijkstra",
-                "direction": 2
+                "algorithm": "BFS",
+                "direction": 0
             },
             {
                 "step": 6,
@@ -1263,16 +1434,16 @@
                 "step": 7,
                 "grid_pos": [
                     6,
-                    6
+                    8
                 ],
                 "algorithm": "BFS",
-                "direction": 1
+                "direction": 0
             },
             {
                 "step": 8,
                 "grid_pos": [
                     6,
-                    5
+                    7
                 ],
                 "algorithm": "BFS",
                 "direction": 1
@@ -1281,28 +1452,28 @@
                 "step": 9,
                 "grid_pos": [
                     6,
-                    4
-                ],
-                "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 10,
-                "grid_pos": [
-                    6,
-                    3
+                    6
                 ],
                 "algorithm": "BFS",
                 "direction": 1
             },
             {
+                "step": 10,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
                 "step": 11,
                 "grid_pos": [
                     6,
-                    4
+                    6
                 ],
-                "algorithm": "Random",
-                "direction": 0
+                "algorithm": "Dijkstra",
+                "direction": 2
             },
             {
                 "step": 12,
@@ -1311,7 +1482,7 @@
                     5
                 ],
                 "algorithm": "BFS",
-                "direction": 0
+                "direction": 1
             },
             {
                 "step": 13,
@@ -1334,43 +1505,43 @@
             {
                 "step": 15,
                 "grid_pos": [
-                    5,
-                    5
+                    6,
+                    6
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 0
             },
             {
                 "step": 16,
                 "grid_pos": [
-                    4,
+                    6,
                     5
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 1
             },
             {
                 "step": 17,
                 "grid_pos": [
-                    3,
-                    5
+                    6,
+                    4
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 1
             },
             {
                 "step": 18,
                 "grid_pos": [
-                    4,
+                    6,
                     5
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 0
             },
             {
                 "step": 19,
                 "grid_pos": [
-                    4,
+                    6,
                     4
                 ],
                 "algorithm": "Random",
@@ -1379,302 +1550,68 @@
             {
                 "step": 20,
                 "grid_pos": [
-                    3,
-                    4
+                    6,
+                    5
                 ],
                 "algorithm": "Random",
-                "direction": 2
+                "direction": 0
             },
             {
                 "step": 21,
                 "grid_pos": [
-                    4,
-                    4
+                    5,
+                    5
                 ],
                 "algorithm": "Random",
-                "direction": 3
+                "direction": 2
             },
             {
                 "step": 22,
                 "grid_pos": [
                     4,
-                    3
-                ],
-                "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 23,
-                "grid_pos": [
-                    4,
-                    4
-                ],
-                "algorithm": "BFS",
-                "direction": 0
-            },
-            {
-                "step": 24,
-                "grid_pos": [
-                    3,
-                    4
+                    5
                 ],
                 "algorithm": "Random",
                 "direction": 2
             },
             {
-                "step": 25,
+                "step": 23,
                 "grid_pos": [
-                    3,
+                    5,
                     5
                 ],
-                "algorithm": "Random",
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 24,
+                "grid_pos": [
+                    6,
+                    5
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 25,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "A* (Eyes)",
                 "direction": 0
             },
             {
                 "step": 26,
                 "grid_pos": [
-                    4,
-                    5
+                    6,
+                    7
                 ],
-                "algorithm": "Random",
-                "direction": 3
+                "algorithm": "A* (Eyes)",
+                "direction": 0
             },
             {
                 "step": 27,
-                "grid_pos": [
-                    4,
-                    6
-                ],
-                "algorithm": "Random",
-                "direction": 0
-            },
-            {
-                "step": 28,
-                "grid_pos": [
-                    4,
-                    5
-                ],
-                "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 29,
-                "grid_pos": [
-                    3,
-                    5
-                ],
-                "algorithm": "Random",
-                "direction": 2
-            },
-            {
-                "step": 30,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "Random",
-                "direction": 1
-            },
-            {
-                "step": 31,
-                "grid_pos": [
-                    4,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 32,
-                "grid_pos": [
-                    4,
-                    3
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 33,
-                "grid_pos": [
-                    4,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 34,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 2
-            },
-            {
-                "step": 35,
-                "grid_pos": [
-                    2,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 2
-            },
-            {
-                "step": 36,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 37,
-                "grid_pos": [
-                    2,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 2
-            },
-            {
-                "step": 38,
-                "grid_pos": [
-                    2,
-                    3
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 39,
-                "grid_pos": [
-                    2,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 40,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 41,
-                "grid_pos": [
-                    3,
-                    5
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 42,
-                "grid_pos": [
-                    3,
-                    4
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 43,
-                "grid_pos": [
-                    4,
-                    4
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 44,
-                "grid_pos": [
-                    4,
-                    5
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 45,
-                "grid_pos": [
-                    4,
-                    4
-                ],
-                "algorithm": "Random (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 46,
-                "grid_pos": [
-                    4,
-                    5
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 47,
-                "grid_pos": [
-                    4,
-                    6
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 48,
-                "grid_pos": [
-                    4,
-                    7
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 49,
-                "grid_pos": [
-                    4,
-                    8
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 0
-            },
-            {
-                "step": 50,
-                "grid_pos": [
-                    5,
-                    8
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 51,
-                "grid_pos": [
-                    6,
-                    8
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 3
-            },
-            {
-                "step": 52,
-                "grid_pos": [
-                    6,
-                    7
-                ],
-                "algorithm": "A* (Eyes)",
-                "direction": 1
-            },
-            {
-                "step": 53,
                 "grid_pos": [
                     7,
                     7
@@ -1683,7 +1620,7 @@
                 "direction": 3
             },
             {
-                "step": 54,
+                "step": 28,
                 "grid_pos": [
                     8,
                     7
@@ -1692,7 +1629,7 @@
                 "direction": 3
             },
             {
-                "step": 55,
+                "step": 29,
                 "grid_pos": [
                     8,
                     7
@@ -1701,30 +1638,102 @@
                 "direction": 2
             },
             {
-                "step": 56,
+                "step": 30,
                 "grid_pos": [
-                    8,
+                    7,
+                    7
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 31,
+                "grid_pos": [
+                    7,
                     6
                 ],
-                "algorithm": "Random",
+                "algorithm": "Dijkstra",
                 "direction": 1
             },
             {
-                "step": 57,
+                "step": 32,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 33,
+                "grid_pos": [
+                    7,
+                    6
+                ],
+                "algorithm": "Random",
+                "direction": 3
+            },
+            {
+                "step": 34,
+                "grid_pos": [
+                    6,
+                    6
+                ],
+                "algorithm": "Dijkstra",
+                "direction": 2
+            },
+            {
+                "step": 35,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 0
+            },
+            {
+                "step": 36,
+                "grid_pos": [
+                    7,
+                    7
+                ],
+                "algorithm": "A* (Eyes)",
+                "direction": 3
+            },
+            {
+                "step": 37,
                 "grid_pos": [
                     8,
                     7
                 ],
-                "algorithm": "Random",
-                "direction": 0
+                "algorithm": "A* (Eyes)",
+                "direction": 3
             },
             {
-                "step": 58,
+                "step": 38,
+                "grid_pos": [
+                    8,
+                    7
+                ],
+                "algorithm": "Reset",
+                "direction": 2
+            },
+            {
+                "step": 39,
                 "grid_pos": [
                     7,
                     7
                 ],
                 "algorithm": "Random",
+                "direction": 2
+            },
+            {
+                "step": 40,
+                "grid_pos": [
+                    6,
+                    7
+                ],
+                "algorithm": "Dijkstra",
                 "direction": 2
             }
         ]

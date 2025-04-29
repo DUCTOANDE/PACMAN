@@ -76,6 +76,10 @@ class GameState:
         self.exit_button_rect = pygame.Rect((WIDTH - 100) // 2 + 150, HEIGHT - 270, 100, 60)
         # Đọc điểm cao nhất từ file
         self.high_score = self.load_high_score()
+        # Tổng điểm của lần chơi hiện tại
+        self.total_score = 0
+        # Theo dõi trạng thái lưu nhật ký
+        self.has_saved_logs = False
 
     def copy_board(self, board):
         """Tạo bản sao sâu của bảng để tránh sửa đổi dữ liệu gốc."""
@@ -83,10 +87,6 @@ class GameState:
 
     def reset_game(self, new_level=None):
         """Đặt lại trạng thái trò chơi cho màn mới hoặc trò chơi mới."""
-        # Lưu điểm cao nhất trước khi đặt lại
-        if self.player.score > self.high_score:
-            self.high_score = self.player.score
-            self.save_high_score()
         if new_level:
             self.level = new_level
             self.current_board = self.copy_board(self.boards.get(self.level, boards_level1))
@@ -171,9 +171,10 @@ class GameState:
         if self.current_state == MENU:
             self.button_hover['play'] = play_button_rect.collidepoint(mouse_pos)
         elif self.current_state == WIN_SCREEN:
-            self.button_hover['continue'] = self.continue_button_rect.collidepoint(mouse_pos)
             self.button_hover['menu'] = self.menu_button_rect.collidepoint(mouse_pos)
             self.button_hover['exit'] = self.exit_button_rect.collidepoint(mouse_pos)
+            if self.level != 2:  # Chỉ kiểm tra hover cho Continue nếu không phải level 2
+                self.button_hover['continue'] = self.continue_button_rect.collidepoint(mouse_pos)
         elif self.current_state == GAME_OVER_SCREEN:
             self.button_hover['menu'] = self.menu_button_rect.collidepoint(mouse_pos)
             self.button_hover['exit'] = self.exit_button_rect.collidepoint(mouse_pos)
@@ -181,10 +182,12 @@ class GameState:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 # Lưu điểm cao nhất trước khi thoát
-                if self.player.score > self.high_score:
-                    self.high_score = self.player.score
+                current_total = self.total_score + self.player.score
+                if current_total > self.high_score:
+                    self.high_score = current_total
                     self.save_high_score()
-                self.save_ghost_logs()
+                if not self.has_saved_logs:
+                    self.save_ghost_logs()
                 log_dir = "log"
                 log_files = glob.glob(os.path.join(log_dir, "ghost_movement_log_*.json"))
                 if log_files:
@@ -194,10 +197,12 @@ class GameState:
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 # Lưu điểm cao nhất trước khi thoát
-                if self.player.score > self.high_score:
-                    self.high_score = self.player.score
+                current_total = self.total_score + self.player.score
+                if current_total > self.high_score:
+                    self.high_score = current_total
                     self.save_high_score()
-                self.save_ghost_logs()
+                if not self.has_saved_logs:
+                    self.save_ghost_logs()
                 log_dir = "log"
                 log_files = glob.glob(os.path.join(log_dir, "ghost_movement_log_*.json"))
                 if log_files:
@@ -209,6 +214,8 @@ class GameState:
                 if play_button_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(100)
                     self.current_state = PLAYING
+                    self.total_score = 0  # Đặt lại tổng điểm cho lần chơi mới
+                    self.has_saved_logs = False  # Đặt lại trạng thái lưu nhật ký
                     self.reset_game(self.level)
                     if self.background_music_playing:
                         self.assets.background_music_path.set_volume(0.2)
@@ -216,32 +223,34 @@ class GameState:
                     self.assets.beginning_sound.play()
             elif self.current_state == WIN_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.continue_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất
-                        if self.player.score > self.high_score:
-                            self.high_score = self.player.score
-                            self.save_high_score()
-                        self.save_ghost_logs()
-                        next_level = self.level + 1 if self.level + 1 in self.boards else 1
-                        self.reset_game(next_level)
+                    if self.level != 2 and self.continue_button_rect.collidepoint(mouse_pos):
+                        # Lưu điểm level 1 vào total_score và chuyển sang level 2
+                        self.total_score += self.player.score
+                        self.reset_game(self.level + 1)
                         self.current_state = PLAYING
                         self.assets.beginning_sound.play()
                     elif self.menu_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất
-                        if self.player.score > self.high_score:
-                            self.high_score = self.player.score
+                        # Cập nhật high_score dựa trên tổng điểm
+                        current_total = self.total_score + self.player.score
+                        if current_total > self.high_score:
+                            self.high_score = current_total
                             self.save_high_score()
-                        self.save_ghost_logs()
+                        if not self.has_saved_logs:
+                            self.save_ghost_logs()
+                            self.has_saved_logs = True
                         self.reset_game(1)
+                        self.total_score = 0
                         self.current_state = MENU
                         if self.background_music_playing:
                             self.assets.background_music_path.set_volume(1.0)
                     elif self.exit_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất
-                        if self.player.score > self.high_score:
-                            self.high_score = self.player.score
+                        # Lưu điểm cao nhất và phân tích nhật ký
+                        current_total = self.total_score + self.player.score
+                        if current_total > self.high_score:
+                            self.high_score = current_total
                             self.save_high_score()
-                        self.save_ghost_logs()
+                        if not self.has_saved_logs:
+                            self.save_ghost_logs()
                         log_dir = "log"
                         log_files = glob.glob(os.path.join(log_dir, "ghost_movement_log_*.json"))
                         if log_files:
@@ -252,21 +261,27 @@ class GameState:
             elif self.current_state == GAME_OVER_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.menu_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất
-                        if self.player.score > self.high_score:
-                            self.high_score = self.player.score
+                        # Cập nhật high_score dựa trên tổng điểm
+                        current_total = self.total_score + self.player.score
+                        if current_total > self.high_score:
+                            self.high_score = current_total
                             self.save_high_score()
-                        self.save_ghost_logs()
+                        if not self.has_saved_logs:
+                            self.save_ghost_logs()
+                            self.has_saved_logs = True
                         self.reset_game(1)
+                        self.total_score = 0
                         self.current_state = MENU
                         if self.background_music_playing:
                             self.assets.background_music_path.set_volume(1.0)
                     elif self.exit_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất
-                        if self.player.score > self.high_score:
-                            self.high_score = self.player.score
+                        # Lưu điểm cao nhất và phân tích nhật ký
+                        current_total = self.total_score + self.player.score
+                        if current_total > self.high_score:
+                            self.high_score = current_total
                             self.save_high_score()
-                        self.save_ghost_logs()
+                        if not self.has_saved_logs:
+                            self.save_ghost_logs()
                         log_dir = "log"
                         log_files = glob.glob(os.path.join(log_dir, "ghost_movement_log_*.json"))
                         if log_files:
@@ -410,14 +425,22 @@ class GameState:
 
     def _render_win_screen(self):
         self.screen.fill((0, 0, 0))
-        win_text = self.game_over_font.render("Victory!", True, (0, 255, 0))
-        score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255))
-        level_text = self.font.render(f"Complete level {self.level}", True, (255, 255, 255))
-        self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 150))
+        if self.level == 2:
+            # Thông báo hoàn thành tất cả các màn
+            win_text = self.game_over_font.render("Congratulations!", True, (0, 255, 0))
+            sub_text = self.font.render("You have won all levels!", True, (255, 255, 0))
+            self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 150))
+            self.screen.blit(sub_text, (WIDTH // 2 - sub_text.get_width() // 2, HEIGHT // 2 - 80))
+        else:
+            # Thông báo thắng màn bình thường
+            win_text = self.game_over_font.render("Victory!", True, (0, 255, 0))
+            level_text = self.font.render(f"Complete level {self.level}", True, (255, 255, 0))
+            self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 150))
+            self.screen.blit(level_text, (WIDTH // 2 - level_text.get_width() // 2, HEIGHT // 2 - 80))
+        score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 0))
         self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2))
-        self.screen.blit(level_text, (WIDTH // 2 - level_text.get_width() // 2, HEIGHT // 2 - 150))
 
-        # Vẽ các nút theo hàng dọc: Exit, Menu, Continue
+        # Vẽ các nút
         button_width = self.assets.exit_button_normal.get_width()
         button_height = self.assets.exit_button_normal.get_height()
         hover_width = self.assets.exit_button_hover.get_width()
@@ -425,43 +448,68 @@ class GameState:
         base_y = HEIGHT // 2 + 100
         spacing = 20
 
-        # Nút Exit
-        exit_x = WIDTH // 2 - button_width // 2
-        exit_y = base_y
-        if self.button_hover['exit']:
-            hover_x = WIDTH // 2 - hover_width // 2
-            hover_y = base_y - (hover_height - button_height) // 2
-            self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
-        else:
-            self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
-        self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
+        if self.level == 2:
+            # Chỉ vẽ Exit và Menu
+            # Nút Exit
+            exit_x = WIDTH // 2 - button_width // 2
+            exit_y = base_y
+            if self.button_hover['exit']:
+                hover_x = WIDTH // 2 - hover_width // 2
+                hover_y = base_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
+            self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
 
-        # Nút Menu
-        menu_x = WIDTH // 2 - button_width // 2
-        menu_y = base_y + button_height + spacing
-        if self.button_hover['menu']:
-            hover_x = WIDTH // 2 - hover_width // 2
-            hover_y = menu_y - (hover_height - button_height) // 2
-            self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
+            # Nút Menu
+            menu_x = WIDTH // 2 - button_width // 2
+            menu_y = base_y + button_height + spacing
+            if self.button_hover['menu']:
+                hover_x = WIDTH // 2 - hover_width // 2
+                hover_y = menu_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
+            self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
         else:
-            self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
-        self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
+            # Vẽ Exit, Menu, Continue
+            # Nút Exit
+            exit_x = WIDTH // 2 - button_width // 2
+            exit_y = base_y
+            if self.button_hover['exit']:
+                hover_x = WIDTH // 2 - hover_width // 2
+                hover_y = base_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
+            self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
 
-        # Nút Continue
-        continue_x = WIDTH // 2 - button_width // 2
-        continue_y = base_y + 2 * (button_height + spacing)
-        if self.button_hover['continue']:
-            hover_x = WIDTH // 2 - hover_width // 2
-            hover_y = continue_y - (hover_height - button_height) // 2
-            self.screen.blit(self.assets.continue_button_hover, (hover_x, hover_y))
-        else:
-            self.screen.blit(self.assets.continue_button_normal, (continue_x, continue_y))
-        self.continue_button_rect = pygame.Rect(continue_x, continue_y, button_width, button_height)
+            # Nút Menu
+            menu_x = WIDTH // 2 - button_width // 2
+            menu_y = base_y + button_height + spacing
+            if self.button_hover['menu']:
+                hover_x = WIDTH // 2 - hover_width // 2
+                hover_y = menu_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
+            self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
+
+            # Nút Continue
+            continue_x = WIDTH // 2 - button_width // 2
+            continue_y = base_y + 2 * (button_height + spacing)
+            if self.button_hover['continue']:
+                hover_x = WIDTH // 2 - hover_width // 2
+                hover_y = continue_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.continue_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.continue_button_normal, (continue_x, continue_y))
+            self.continue_button_rect = pygame.Rect(continue_x, continue_y, button_width, button_height)
 
     def _render_game_over_screen(self):
         self.screen.fill((0, 0, 0))
         game_over_text = self.game_over_font.render("Game Over", True, (255, 0, 0))
-        score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255))
+        score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 0))
         self.screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - 100))
         self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 10))
 
@@ -499,14 +547,14 @@ class GameState:
         score_icon_x = 60
         score_icon_y = HEIGHT - CELL_SIZE + 5
         self.screen.blit(self.assets.score_img, (score_icon_x, score_icon_y))
-        score_value_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 255))
+        score_value_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 0))
         score_text_x = score_icon_x + self.assets.score_img.get_width() + 2
         score_text_y = score_icon_y + (self.assets.score_img.get_height() - score_value_text.get_height()) // 2
         self.screen.blit(score_value_text, (score_text_x, score_text_y))
         for i in range(self.player.lives):
             self.screen.blit(pygame.transform.scale(self.assets.lives_img, (CELL_SIZE - 10, CELL_SIZE - 10)), (520 + i*40, 705))
         # Hiển thị level hiện tại
-        level_text = self.font.render(f"Level: {self.level}", True, (255, 255, 255))
+        level_text = self.font.render(f"Level: {self.level}", True, (255, 255, 0))
         self.screen.blit(level_text, (WIDTH // 2 - level_text.get_width() // 2, HEIGHT - CELL_SIZE + 5))
 
     def save_ghost_logs(self):

@@ -187,35 +187,16 @@ def visualize_evaluation(scores, from_game=False):
                 show_plots = True
                 print("Sẽ hiển thị các biểu đồ...")
                 break
-            elif choice == 'n':
-                print("Sẽ không hiển thị biểu đồ. Bạn có thể tìm file ảnh trong thư mục 'log_analysis_results'.")
-                break
             else:
-                print("Lựa chọn không hợp lệ. Vui lòng nhập 'y' hoặc 'n'.")
+                print("Sẽ không hiển thị biểu đồ.")
+                return
+                
+
     else:
         print("Phân tích từ trò chơi: Chỉ lưu biểu đồ, không hiển thị.")
 
     # Thiết lập phong cách và font
     plt.style.use('ggplot')
-    try:
-        font_paths = [
-            '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
-            os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts', 'DejaVuSans-Bold.ttf'),
-            os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Microsoft\\Windows\\Fonts', 'DejaVuSans-Bold.ttf')
-        ]
-        found_font = False
-        for font_path in font_paths:
-            if os.path.exists(font_path):
-                font_manager.fontManager.addfont(font_path)
-                plt.rcParams['font.family'] = 'DejaVu Sans'
-                found_font = True
-                break
-        if not found_font:
-            print("Cảnh báo: DejaVu Sans không tìm thấy, sử dụng font mặc định.")
-            plt.rcParams['font.family'] = 'sans-serif'
-    except Exception as e:
-        print(f"Lỗi khi tải font: {e}. Sử dụng font mặc định.")
-        plt.rcParams['font.family'] = 'sans-serif'
 
     # Màu sắc gradient
     if total_scores:
