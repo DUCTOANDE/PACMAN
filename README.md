@@ -1,7 +1,7 @@
 <h1 align="center"> DỰ ÁN TRÒ CHƠI PACMAN</h1>
 
 **TỔNG QUAN**
-- Dự án này là một phiên bản trò chơi Pac-Man cổ điển được viết bằng Python, phát triển như một dự án về trí tuệ nhân tạo (AI). Khác với phiên bản gốc, trò chơi này sử dụng các thuật toán tìm đường (pathfinding) để điều khiển các con ma (ghosts), bao gồm A*, Dijkstra, BFS và di chuyển ngẫu nhiên (Random). Ngoài ra, dự án còn phân tích hành vi của các con ma thông qua nhật ký (log) và trực quan hóa kết quả phân tích bằng biểu đồ.
+- Dự án này là một phiên bản trò chơi Pac-Man cổ điển được viết bằng Python, phát triển như một dự án về trí tuệ nhân tạo (AI). Khác với phiên bản gốc, trò chơi này sử dụng các thuật toán tìm đường (pathfinding) để điều khiển các con ma (ghosts), bao gồm A*, Dijkstra, BFS và di chuyển ngẫu nhiên (Random), Greedy, DFS. Ngoài ra, dự án còn phân tích hành vi của các con ma thông qua nhật ký (log) và trực quan hóa kết quả phân tích bằng biểu đồ.
 
 **NGUỒN GỐC CỦA Pac-Man**
 
@@ -11,10 +11,12 @@
 
 - Gameplay Cổ Điển: Điều khiển Pac-Man thu thập chấm và power pellets, tránh 4 con ma (Blinky, Inky, Pinky, Clyde) để qua màn.
 AI Điều Khiển Ma: Mỗi con ma sử dụng thuật toán tìm đường khác nhau:
+- Người chơi sẽ chọn cho mỗi ghost 1 trong 6 thuật toán được cài đặt sẵn: A*, BFS, Dijkstra, DFS, Greedy, Random. Và 4 ghost được cài đặt mặc định ban đầu bởi 4 thuật toán như sau:
 - Blinky: A*
-- Inky: Dijkstra
-- Pinky: A* hoặc Random (50% cơ hội)
-- Clyde: BFS
+- Inky: BFS
+- Pinky: Dijkstra
+- Clyde: Random
+
 - Phân Tích Hành Vi Ma: Ghi lại di chuyển của ma, phân tích hiệu quả (số bước, đổi hướng, khoảng cách đến Pac-Man) và tạo biểu đồ trực quan.
 - Hai Màn Chơi: Chơi qua 2 màn với bố cục bản đồ khác nhau, độ khó tăng dần.
 - Hệ Thống Điểm Số: Thu thập chấm (10 điểm), power pellets (50 điểm), ăn ma trong chế độ power-up (200 điểm trở lên).
