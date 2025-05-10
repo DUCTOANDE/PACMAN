@@ -1,4 +1,3 @@
-DEMO
 <h1 align="center"> DỰ ÁN TRÒ CHƠI PACMAN</h1>
 
 **TỔNG QUAN**

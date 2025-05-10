@@ -7,37 +7,41 @@ from .assets_manager import AssetManager
 from .player import Player
 from .ghosts import Ghost
 import os
-from .analyze_ghost_logs import load_ghost_log, analyze_ghost_logs, compare_algorithms, evaluate_algorithms, save_comparison_to_file, visualize_evaluation
+from .analyze_ghost_logs import *
 import glob
 import sys
 
-LOADING = 0
-MENU = 1
+# Game states
+MENU = 0
+READY = 1
 PLAYING = 2
 WIN_SCREEN = 3
 GAME_OVER_SCREEN = 4
 
-STARTUP_DELAY = 240
+STARTUP_DELAY = 180  # 3 seconds (60 fps * 3)
 POWERUP_DURATION = 600
+
+# Global play button rectangle, positioned at the top
+play_button_rect = pygame.Rect(WIDTH // 2 - 50, 50, 100, 90)
 
 class GameState:
     def __init__(self, screen, assets):
         self.screen = screen
         self.assets = assets
-        self.current_state = LOADING
+        self.current_state = MENU
         self.start_time = time.time()
         self.current_frame = 0
         self.last_frame_time = time.time()
         self.clock = pygame.time.Clock()
-        self.button_hover = {'play': False, 'continue': False, 'menu': False, 'exit': False}
+        self.button_hover = {'play': False, 'continue': False, 'menu': False, 'exit': False, 'select_algo': False}
         self.startup_counter = 0
         self.moving = False
         self.game_over = False
         self.game_won = False
         self.background_music_playing = False
-        self.level = 1  # Bắt đầu từ màn 1
-        self.boards = {1: boards_level1, 2: boards_level2}  # Ánh xạ màn chơi với bảng
-        self.current_board = self.copy_board(self.boards[self.level])  # Trạng thái bảng hiện tại
+        self.level = 1
+        self.boards = {1: boards_level1, 2: boards_level2}
+        self.current_board = self.copy_board(self.boards[self.level])
         self.player = Player(self.screen, self.assets.player_images, 300, 500)
         self.player.game_state = self
         self.target = [[self.player.center_x, self.player.center_y]] * 4
@@ -66,27 +70,54 @@ class GameState:
         self.ghost_release_timer = [0, 60, 120, 180]
         self.direction_command = self.player.direction
         pygame.font.init()
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font(None, 28)
+        self.bold_font = pygame.font.Font(None, 32)
         self.game_over_font = pygame.font.Font(None, 72)
         self.victory_sound_played = False
         self.defeat_sound_played = False
-        # Định nghĩa các hình chữ nhật cho nút trong màn thắng và thua
-        self.continue_button_rect = pygame.Rect((WIDTH - 100) // 2 - 150, HEIGHT - 270, 100, 60)
-        self.menu_button_rect = pygame.Rect((WIDTH - 100) // 2, HEIGHT - 270, 100, 60)
-        self.exit_button_rect = pygame.Rect((WIDTH - 100) // 2 + 150, HEIGHT - 270, 100, 60)
-        # Đọc điểm cao nhất từ file
+        self.continue_button_rect = pygame.Rect((WIDTH - 100) // 2 - 150, HEIGHT - 270, 100, 80)
+        self.menu_button_rect = pygame.Rect((WIDTH - 100) // 2, HEIGHT - 270, 100, 80)
+        self.exit_button_rect = pygame.Rect((WIDTH - 100) // 2 + 150, HEIGHT - 270, 100, 80)
         self.high_score = self.load_high_score()
-        # Tổng điểm của lần chơi hiện tại
         self.total_score = 0
-        # Theo dõi trạng thái lưu nhật ký
         self.has_saved_logs = False
+        # Algorithm selection
+        self.ghost_algorithms = {
+            'Blinky': 'A*',
+            'Inky': 'BFS',
+            'Pinky': 'Dijkstra',
+            'Clyde': 'Random'
+        }
+        self.ghost_names = ['Blinky', 'Inky', 'Pinky', 'Clyde']
+        self.algo_buttons = {}
+        self.algo_button_rects = {}
+        self.ghost_display_rects = {}
+        self._init_algo_buttons()
+        self.current_ghost_index = 0
+        self.show_algo_bar = False
+        self.algo_bar_y = 360
+        self.target_algo_bar_y = 360
+        self.algo_bar_speed = 10
+        self.select_algo_rect = pygame.Rect(WIDTH // 2 - 100, 380, 200, 50)
+        self.selected_algorithm = 'A*'
+
+    def _init_algo_buttons(self):
+        algorithms = ['A*', 'BFS', 'Dijkstra', 'Random', 'DFS', 'Greedy']
+        button_width, button_height = 150, 40
+        start_x = WIDTH // 2 - button_width // 2
+        start_y = 440
+        for i, algo in enumerate(algorithms):
+            self.algo_buttons[algo] = False
+            self.algo_button_rects[algo] = pygame.Rect(start_x, start_y + i * (button_height + 5), button_width, button_height)
+        
+        ghost_start_y = 180
+        for i, ghost in enumerate(self.ghost_names):
+            self.ghost_display_rects[ghost] = pygame.Rect(WIDTH // 2 - 150, ghost_start_y + i * 40, 300, 30)
 
     def copy_board(self, board):
-        """Tạo bản sao sâu của bảng để tránh sửa đổi dữ liệu gốc."""
         return [row[:] for row in board]
 
     def reset_game(self, new_level=None):
-        """Đặt lại trạng thái trò chơi cho màn mới hoặc trò chơi mới."""
         if new_level:
             self.level = new_level
             self.current_board = self.copy_board(self.boards.get(self.level, boards_level1))
@@ -116,6 +147,8 @@ class GameState:
             player=self.player, assets=self.assets, game_state=self
         )
         self.ghosts = [self.blinky, self.inky, self.pinky, self.clyde]
+        for i, ghost in enumerate(self.ghosts):
+            ghost.algorithm = self.ghost_algorithms[self.ghost_names[i]]
         self.ghost_release_timer = [0, 60, 120, 180]
         self.game_over = False
         self.game_won = False
@@ -128,7 +161,6 @@ class GameState:
         self.defeat_sound_played = False
 
     def load_high_score(self):
-        """Đọc điểm cao nhất từ file high_score.json."""
         try:
             with open("high_score.json", "r") as f:
                 data = json.load(f)
@@ -137,7 +169,6 @@ class GameState:
             return 0
 
     def save_high_score(self):
-        """Lưu điểm cao nhất vào file high_score.json."""
         try:
             with open("high_score.json", "w") as f:
                 json.dump({"high_score": self.high_score}, f, indent=4)
@@ -146,16 +177,15 @@ class GameState:
             print(f"Lỗi khi lưu điểm cao nhất: {e}")
 
     def analyze_ghost_logs(self, log_filepath, from_game=True):
-        """Phân tích file nhật ký di chuyển của ma và lưu kết quả."""
         try:
-            pygame.display.quit()  # Đóng cửa sổ Pygame trước khi phân tích
+            pygame.display.quit()
             data = load_ghost_log(log_filepath)
             if data:
                 metrics = analyze_ghost_logs(data)
                 comparison = compare_algorithms(metrics)
                 scores = evaluate_algorithms(comparison)
                 save_comparison_to_file(comparison)
-                visualize_evaluation(scores, from_game=from_game)
+                visualize_evaluation(scores, metrics, from_game=from_game)
         except Exception as e:
             print(f"Lỗi khi phân tích nhật ký: {e}")
         if not from_game:
@@ -168,20 +198,20 @@ class GameState:
 
     def handle_events(self):
         mouse_pos = pygame.mouse.get_pos()
+        # Update button hover states
         if self.current_state == MENU:
             self.button_hover['play'] = play_button_rect.collidepoint(mouse_pos)
-        elif self.current_state == WIN_SCREEN:
-            self.button_hover['menu'] = self.menu_button_rect.collidepoint(mouse_pos)
-            self.button_hover['exit'] = self.exit_button_rect.collidepoint(mouse_pos)
-            if self.level != 2:  # Chỉ kiểm tra hover cho Continue nếu không phải level 2
-                self.button_hover['continue'] = self.continue_button_rect.collidepoint(mouse_pos)
-        elif self.current_state == GAME_OVER_SCREEN:
+            self.button_hover['select_algo'] = self.select_algo_rect.collidepoint(mouse_pos)
+            if self.show_algo_bar:
+                for algo in self.algo_buttons:
+                    self.algo_buttons[algo] = self.algo_button_rects[algo].move(0, self.algo_bar_y - 440).collidepoint(mouse_pos)
+        elif self.current_state in [WIN_SCREEN, GAME_OVER_SCREEN]:
+            self.button_hover['continue'] = self.continue_button_rect.collidepoint(mouse_pos)
             self.button_hover['menu'] = self.menu_button_rect.collidepoint(mouse_pos)
             self.button_hover['exit'] = self.exit_button_rect.collidepoint(mouse_pos)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Lưu điểm cao nhất trước khi thoát
                 current_total = self.total_score + self.player.score
                 if current_total > self.high_score:
                     self.high_score = current_total
@@ -196,7 +226,6 @@ class GameState:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                # Lưu điểm cao nhất trước khi thoát
                 current_total = self.total_score + self.player.score
                 if current_total > self.high_score:
                     self.high_score = current_total
@@ -213,24 +242,43 @@ class GameState:
             if self.current_state == MENU:
                 if play_button_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(100)
-                    self.current_state = PLAYING
-                    self.total_score = 0  # Đặt lại tổng điểm cho lần chơi mới
-                    self.has_saved_logs = False  # Đặt lại trạng thái lưu nhật ký
-                    self.reset_game(self.level)
+                    self.current_state = READY
+                    self.startup_counter = 0
+                    self.total_score = 0
+                    self.has_saved_logs = False
                     if self.background_music_playing:
                         self.assets.background_music_path.set_volume(0.2)
                     self.assets.pellet_sound.set_volume(1.0)
                     self.assets.beginning_sound.play()
+                elif self.select_algo_rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.show_algo_bar:
+                        self.show_algo_bar = False
+                        self.target_algo_bar_y = 360
+                    else:
+                        self.current_ghost_index = 0
+                        self.show_algo_bar = True
+                        self.algo_bar_y = 360
+                        self.target_algo_bar_y = 440
+                elif self.show_algo_bar and event.type == pygame.MOUSEBUTTONDOWN:
+                    for algo, rect in self.algo_button_rects.items():
+                        if rect.move(0, self.algo_bar_y - 440).collidepoint(mouse_pos):
+                            self.ghost_algorithms[self.ghost_names[self.current_ghost_index]] = algo
+                            self.current_ghost_index += 1
+                            if self.current_ghost_index >= len(self.ghost_names):
+                                self.show_algo_bar = False
+                                self.target_algo_bar_y = 360
             elif self.current_state == WIN_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.level != 2 and self.continue_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm level 1 vào total_score và chuyển sang level 2
+                    if self.level < 2 and self.continue_button_rect.collidepoint(mouse_pos):
                         self.total_score += self.player.score
-                        self.reset_game(self.level + 1)
-                        self.current_state = PLAYING
+                        self.level += 1
+                        self.reset_game(self.level)
+                        self.current_state = READY
+                        self.startup_counter = 0
+                        self.game_won = False
+                        self.victory_sound_played = False
                         self.assets.beginning_sound.play()
                     elif self.menu_button_rect.collidepoint(mouse_pos):
-                        # Cập nhật high_score dựa trên tổng điểm
                         current_total = self.total_score + self.player.score
                         if current_total > self.high_score:
                             self.high_score = current_total
@@ -244,7 +292,6 @@ class GameState:
                         if self.background_music_playing:
                             self.assets.background_music_path.set_volume(1.0)
                     elif self.exit_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất và phân tích nhật ký
                         current_total = self.total_score + self.player.score
                         if current_total > self.high_score:
                             self.high_score = current_total
@@ -261,7 +308,6 @@ class GameState:
             elif self.current_state == GAME_OVER_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.menu_button_rect.collidepoint(mouse_pos):
-                        # Cập nhật high_score dựa trên tổng điểm
                         current_total = self.total_score + self.player.score
                         if current_total > self.high_score:
                             self.high_score = current_total
@@ -275,7 +321,6 @@ class GameState:
                         if self.background_music_playing:
                             self.assets.background_music_path.set_volume(1.0)
                     elif self.exit_button_rect.collidepoint(mouse_pos):
-                        # Lưu điểm cao nhất và phân tích nhật ký
                         current_total = self.total_score + self.player.score
                         if current_total > self.high_score:
                             self.high_score = current_total
@@ -302,8 +347,12 @@ class GameState:
         return True
 
     def update(self, current_time):
-        if self.current_state == LOADING and current_time - self.start_time > LOADING_DURATION:
-            self.current_state = MENU
+        if self.current_state == READY:
+            if self.startup_counter < STARTUP_DELAY:
+                self.startup_counter += 1
+            else:
+                self.current_state = PLAYING
+                self.startup_counter = 0
         elif self.current_state == PLAYING and not self.game_over and not self.game_won:
             if self.startup_counter < STARTUP_DELAY:
                 self.moving = False
@@ -340,12 +389,19 @@ class GameState:
                 for i, ghost in enumerate(self.ghosts):
                     if self.startup_counter >= self.ghost_release_timer[i]:
                         ghost.move_ghost()
+        if self.algo_bar_y != self.target_algo_bar_y:
+            distance = self.target_algo_bar_y - self.algo_bar_y
+            if abs(distance) > 1:
+                self.algo_bar_y += self.algo_bar_speed * (distance / abs(distance))
+                self.algo_bar_y = max(360, min(self.algo_bar_y, 710))
+            else:
+                self.algo_bar_y = self.target_algo_bar_y
 
     def render(self):
-        if self.current_state == LOADING:
-            self._render_loading()
-        elif self.current_state == MENU:
+        if self.current_state == MENU:
             self._render_menu()
+        elif self.current_state == READY:
+            self._render_ready()
         elif self.current_state == PLAYING:
             self._render_game()
         elif self.current_state == WIN_SCREEN:
@@ -355,24 +411,54 @@ class GameState:
         pygame.display.flip()
         self.clock.tick(60)
 
-    def _render_loading(self):
+    def _render_menu(self):
         if not self.background_music_playing:
             self.assets.background_music_path.play(-1)
             self.assets.background_music_path.set_volume(1.0)
             self.background_music_playing = True
-        self.screen.blit(self.assets.loading_img, (0, 0))
-
-    def _render_menu(self):
         self.screen.blit(self.assets.menu_img, (0, 0))
+        
         if self.button_hover['play']:
             hover_x = play_button_rect.x - (self.assets.play_button_hover.get_width() - play_button_rect.width) // 2
             hover_y = play_button_rect.y - (self.assets.play_button_hover.get_height() - play_button_rect.height) // 2
             self.screen.blit(self.assets.play_button_hover, (hover_x, hover_y))
         else:
             self.screen.blit(self.assets.play_button_normal, play_button_rect)
-        # Hiển thị điểm cao nhất
+        
         high_score_text = self.font.render(f"High Score: {self.high_score}", True, (255, 255, 255))
-        self.screen.blit(high_score_text, (WIDTH // 2 - high_score_text.get_width() // 2, HEIGHT - 150))
+        self.screen.blit(high_score_text, (WIDTH // 2 - high_score_text.get_width() // 2, 130))
+        
+        colors = [(255, 0, 0), (0, 255, 255), (255, 105, 180), (255, 165, 0)]
+        start_y = 180
+        for i, ghost in enumerate(self.ghost_names):
+            font = self.bold_font if self.show_algo_bar and i == self.current_ghost_index else self.font
+            ghost_text = font.render(f"{ghost}: {self.ghost_algorithms[ghost]}", True, colors[i])
+            text_y = start_y + i * 40 + (0 if font == self.font else -4)
+            self.screen.blit(ghost_text, (WIDTH // 2 - ghost_text.get_width() // 2, text_y))
+        
+        pygame.draw.rect(self.screen, (0, 255, 0) if self.button_hover['select_algo'] else (150, 150, 150), self.select_algo_rect)
+        pygame.draw.rect(self.screen, (255, 255, 255), self.select_algo_rect, 1)
+        select_text = self.font.render("Select Algorithm", True, (255, 255, 255))
+        self.screen.blit(select_text, (self.select_algo_rect.x + 20, self.select_algo_rect.y + 15))
+        
+        if self.show_algo_bar:
+            for algo, rect in self.algo_button_rects.items():
+                new_rect = rect.move(0, self.algo_bar_y - 440)
+                is_selected = algo == self.ghost_algorithms.get(self.ghost_names[self.current_ghost_index], '')
+                color = (255, 255, 153) if is_selected else (0, 255, 0) if self.algo_buttons.get(algo, False) else (150, 150, 150)
+                pygame.draw.rect(self.screen, color, new_rect, 0)
+                pygame.draw.rect(self.screen, (255, 255, 255), new_rect, 1)
+                algo_text = self.font.render(algo, True, (255, 255, 255))
+                self.screen.blit(algo_text, (new_rect.x + 10, new_rect.y + 10))
+
+    def _render_ready(self):
+        self.screen.fill((0, 0, 0))
+        x = (WIDTH - self.assets.ready_screen_img.get_width()) // 2
+        y = (HEIGHT - self.assets.ready_screen_img.get_height()) // 2
+        self.screen.blit(self.assets.ready_screen_img, (0,0))
+        if (self.startup_counter // 30) % 2 == 0:
+            ready_text = self.game_over_font.render("Ready!", True, (255, 255, 0))
+            self.screen.blit(ready_text, (WIDTH // 2 - ready_text.get_width() // 2, HEIGHT // 2 + 50))
 
     def _render_game(self):
         if self.game_over:
@@ -419,92 +505,81 @@ class GameState:
                     self.game_over = True
                     break
             self.draw_misc()
-            if not self.moving and self.current_state == PLAYING and not self.game_over and not self.game_won:
-                if (self.startup_counter % 40) < 20:
-                    self.screen.blit(self.assets.ready_img, (300, 400))
 
     def _render_win_screen(self):
         self.screen.fill((0, 0, 0))
         if self.level == 2:
-            # Thông báo hoàn thành tất cả các màn
             win_text = self.game_over_font.render("Congratulations!", True, (0, 255, 0))
             sub_text = self.font.render("You have won all levels!", True, (255, 255, 0))
             self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 150))
             self.screen.blit(sub_text, (WIDTH // 2 - sub_text.get_width() // 2, HEIGHT // 2 - 80))
         else:
-            # Thông báo thắng màn bình thường
             win_text = self.game_over_font.render("Victory!", True, (0, 255, 0))
-            level_text = self.font.render(f"Complete level {self.level}", True, (255, 255, 0))
+            level_text = self.font.render(f"Completed level {self.level}", True, (255, 255, 0))
             self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 150))
             self.screen.blit(level_text, (WIDTH // 2 - level_text.get_width() // 2, HEIGHT // 2 - 80))
+        
         score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 0))
         self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2))
-
-        # Vẽ các nút
+        
         button_width = self.assets.exit_button_normal.get_width()
         button_height = self.assets.exit_button_normal.get_height()
         hover_width = self.assets.exit_button_hover.get_width()
         hover_height = self.assets.exit_button_hover.get_height()
+        base_x = WIDTH // 2 - button_width // 2
         base_y = HEIGHT // 2 + 100
         spacing = 20
-
+        
         if self.level == 2:
-            # Chỉ vẽ Exit và Menu
-            # Nút Exit
-            exit_x = WIDTH // 2 - button_width // 2
+            # Position for Exit button
             exit_y = base_y
             if self.button_hover['exit']:
-                hover_x = WIDTH // 2 - hover_width // 2
-                hover_y = base_y - (hover_height - button_height) // 2
+                hover_x = base_x
+                hover_y = exit_y - (hover_height - button_height) // 2
                 self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
             else:
-                self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
-            self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
-
-            # Nút Menu
-            menu_x = WIDTH // 2 - button_width // 2
-            menu_y = base_y + button_height + spacing
+                self.screen.blit(self.assets.exit_button_normal, (base_x, exit_y))
+            self.exit_button_rect = pygame.Rect(base_x, exit_y, button_width, button_height)
+            
+            # Position for Menu button
+            menu_y = exit_y + button_height + spacing
             if self.button_hover['menu']:
-                hover_x = WIDTH // 2 - hover_width // 2
+                hover_x = base_x
                 hover_y = menu_y - (hover_height - button_height) // 2
                 self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
             else:
-                self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
-            self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
+                self.screen.blit(self.assets.menu_button_normal, (base_x, menu_y))
+            self.menu_button_rect = pygame.Rect(base_x, menu_y, button_width, button_height)
         else:
-            # Vẽ Exit, Menu, Continue
-            # Nút Exit
-            exit_x = WIDTH // 2 - button_width // 2
-            exit_y = base_y
-            if self.button_hover['exit']:
-                hover_x = WIDTH // 2 - hover_width // 2
-                hover_y = base_y - (hover_height - button_height) // 2
-                self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
-            else:
-                self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
-            self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
-
-            # Nút Menu
-            menu_x = WIDTH // 2 - button_width // 2
-            menu_y = base_y + button_height + spacing
-            if self.button_hover['menu']:
-                hover_x = WIDTH // 2 - hover_width // 2
-                hover_y = menu_y - (hover_height - button_height) // 2
-                self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
-            else:
-                self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
-            self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
-
-            # Nút Continue
-            continue_x = WIDTH // 2 - button_width // 2
-            continue_y = base_y + 2 * (button_height + spacing)
+            # Position for Continue button
+            continue_y = base_y
             if self.button_hover['continue']:
-                hover_x = WIDTH // 2 - hover_width // 2
+                hover_x = base_x
                 hover_y = continue_y - (hover_height - button_height) // 2
                 self.screen.blit(self.assets.continue_button_hover, (hover_x, hover_y))
             else:
-                self.screen.blit(self.assets.continue_button_normal, (continue_x, continue_y))
-            self.continue_button_rect = pygame.Rect(continue_x, continue_y, button_width, button_height)
+                self.screen.blit(self.assets.continue_button_normal, (base_x, continue_y))
+            self.continue_button_rect = pygame.Rect(base_x, continue_y, button_width, button_height)
+            
+            # Position for Menu button
+            menu_y = continue_y + button_height + spacing
+            if self.button_hover['menu']:
+                hover_x = base_x
+                hover_y = menu_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.menu_button_normal, (base_x, menu_y))
+            self.menu_button_rect = pygame.Rect(base_x, menu_y, button_width, button_height)
+            
+            # Position for Exit button
+            exit_y = menu_y + button_height + spacing
+            if self.button_hover['exit']:
+                hover_x = base_x
+                hover_y = exit_y - (hover_height - button_height) // 2
+                self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
+            else:
+                self.screen.blit(self.assets.exit_button_normal, (base_x, exit_y))
+            self.exit_button_rect = pygame.Rect(base_x, exit_y, button_width, button_height)
 
     def _render_game_over_screen(self):
         self.screen.fill((0, 0, 0))
@@ -512,36 +587,34 @@ class GameState:
         score_text = self.font.render(f"Score: {self.player.score}", True, (255, 255, 0))
         self.screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - 100))
         self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + 10))
-
-        # Vẽ các nút theo hàng dọc: Exit, Menu
+        
         button_width = self.assets.exit_button_normal.get_width()
         button_height = self.assets.exit_button_normal.get_height()
         hover_width = self.assets.exit_button_hover.get_width()
         hover_height = self.assets.exit_button_hover.get_height()
+        base_x = WIDTH // 2 - button_width // 2
         base_y = HEIGHT // 2 + 50
         spacing = 10
-
-        # Nút Exit
-        exit_x = WIDTH // 2 - button_width // 2
-        exit_y = base_y
-        if self.button_hover['exit']:
-            hover_x = WIDTH // 2 - hover_width // 2
-            hover_y = base_y - (hover_height - button_height) // 2
-            self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
-        else:
-            self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
-        self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
-
-        # Nút Menu
-        menu_x = WIDTH // 2 - button_width // 2
-        menu_y = base_y + button_height + spacing
+        
+        menu_x = base_x
+        menu_y = base_y
         if self.button_hover['menu']:
-            hover_x = WIDTH // 2 - hover_width // 2
-            hover_y = menu_y - (hover_height - button_height) // 2
+            hover_x = base_x
+            hover_y = base_y - (hover_height - button_height) // 2
             self.screen.blit(self.assets.menu_button_hover, (hover_x, hover_y))
         else:
             self.screen.blit(self.assets.menu_button_normal, (menu_x, menu_y))
         self.menu_button_rect = pygame.Rect(menu_x, menu_y, button_width, button_height)
+        
+        exit_x = base_x
+        exit_y = base_y + button_height + spacing
+        if self.button_hover['exit']:
+            hover_x = base_x
+            hover_y = exit_y - (hover_height - button_height) // 2
+            self.screen.blit(self.assets.exit_button_hover, (hover_x, hover_y))
+        else:
+            self.screen.blit(self.assets.exit_button_normal, (exit_x, exit_y))
+        self.exit_button_rect = pygame.Rect(exit_x, exit_y, button_width, button_height)
 
     def draw_misc(self):
         score_icon_x = 60
@@ -553,7 +626,6 @@ class GameState:
         self.screen.blit(score_value_text, (score_text_x, score_text_y))
         for i in range(self.player.lives):
             self.screen.blit(pygame.transform.scale(self.assets.lives_img, (CELL_SIZE - 10, CELL_SIZE - 10)), (520 + i*40, 705))
-        # Hiển thị level hiện tại
         level_text = self.font.render(f"Level: {self.level}", True, (255, 255, 0))
         self.screen.blit(level_text, (WIDTH // 2 - level_text.get_width() // 2, HEIGHT - CELL_SIZE + 5))
 
@@ -563,6 +635,7 @@ class GameState:
         for i, ghost in enumerate(self.ghosts):
             logs[ghost_names[i]] = {
                 'id': ghost.id,
+                'algorithm': self.ghost_algorithms[ghost_names[i]],
                 'movements': ghost.movement_log
             }
         log_dir = "log"

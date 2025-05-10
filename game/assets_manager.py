@@ -18,16 +18,12 @@ class AssetManager:
             else:
                 self.image_maps[i] = pygame.transform.scale(img, (CELL_SIZE, CELL_SIZE))
 
-        # Tải màn hình
-        self.loading_img = pygame.image.load(r".\assets\Image\LoadingGame.png")
-        self.loading_img = pygame.transform.scale(self.loading_img, (WIDTH, HEIGHT))
-
-        self.menu_img = pygame.image.load(r".\assets\Image\BackgroundPlay.png")
+        self.menu_img = pygame.image.load(r".\assets\Image\BackgroundPlay.jpg")
         self.menu_img = pygame.transform.scale(self.menu_img, (WIDTH, HEIGHT))
 
         # Tải nút chơi
         self.play_button_img = pygame.image.load(r'.\assets\Image\button_play.png')
-        self.play_button_normal = pygame.transform.scale(self.play_button_img, (100, 60))
+        self.play_button_normal = pygame.transform.scale(self.play_button_img, (100, 80))
         self.play_button_hover = pygame.transform.scale(self.play_button_img, (int(100 * 1.1), int(60 * 1.1)))
 
         # Tải các nút menu, continue, exit
@@ -61,6 +57,9 @@ class AssetManager:
         self.ready_img = pygame.image.load(r".\assets\Image\ready.png")
         self.ready_img = pygame.transform.scale(self.ready_img, (90, 150))
 
+        # Tải hình ảnh ready
+        self.ready_screen_img = pygame.image.load(r".\assets\Image\ready_background.png")
+        self.ready_screen_img = pygame.transform.scale(self.ready_screen_img, (WIDTH, HEIGHT))
         # Tải mạng
         self.lives_img = pygame.image.load(r".\assets\Image\lives.png")
         self.lives_img = pygame.transform.scale(self.lives_img, (40, 40))
@@ -97,3 +96,6 @@ class AssetManager:
         # Tải âm thanh chiến thắng và thua cuộc
         self.victory_sound = pygame.mixer.Sound(r".\assets\sound\victory.mp3")
         self.defeat_sound = pygame.mixer.Sound(r".\assets\sound\gameover.mp3")
+        
+        # Tải ảnh High Score
+        self.high_score_img = pygame.image.load(r".\assets\Image\HighScore.png")
