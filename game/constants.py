@@ -13,8 +13,8 @@ PLAYING = 3
 WIN_SCREEN = 4
 GAME_OVER_SCREEN = 5
 
-# Phần tử giao diện
-play_button_rect = pygame.Rect((WIDTH - 100) // 2, HEIGHT - 270, 100, 60)
+# # Phần tử giao diện
+# play_button_rect = pygame.Rect((WIDTH - 100) // 2, HEIGHT - 270, 100, 60)
 
 # Cài đặt hoạt hình
 LOADING_DURATION = 3  # giây

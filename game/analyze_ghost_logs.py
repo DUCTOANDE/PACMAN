@@ -5,12 +5,12 @@ import numpy as np
 import glob
 import pygame
 import sys
-from .constants import*  # Import constants
+from .constants import *
 
 def load_ghost_log(filepath):
     """Đọc dữ liệu từ file nhật ký ghost."""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data
     except Exception as e:
@@ -31,8 +31,7 @@ def analyze_ghost_logs(data):
                 total_distance += ((x2 - x1)**2 + (y2 - y1)**2)**0.5
         start_time = movements[0]['time'] if movements else 0
         end_time = movements[-1]['time'] if movements else 0
-        total_time = (end_time - start_time) / 1000.0 if end_time > start_time else 1.0  # Convert ms to seconds
-        # Approximate optimal distance (Manhattan distance from start to player position)
+        total_time = (end_time - start_time) / 1000.0 if end_time > start_time else 1.0
         if movements:
             start_pos = movements[0]['position']
             end_pos = movements[-1]['position']
@@ -44,6 +43,7 @@ def analyze_ghost_logs(data):
         algorithm = log.get('algorithm', 'Unknown')
         metrics[ghost_name] = {
             'step_count': step_count,
+            'total_distance': total_distance,
             'average_speed': average_speed,
             'path_efficiency': path_efficiency,
             'algorithm': algorithm
@@ -59,7 +59,7 @@ def compare_algorithms(metrics):
             comparison[algorithm] = {
                 'ghosts': [],
                 'avg_step_count': 0,
-                'avg_speed': 0,
+                'avg_distance': 0,
                 'avg_path_efficiency': 0,
                 'instances': 0
             }
@@ -69,128 +69,117 @@ def compare_algorithms(metrics):
         if not ghosts:
             continue
         total_step_count = sum(metrics[ghost]['step_count'] for ghost in ghosts)
-        total_speed = sum(metrics[ghost]['average_speed'] for ghost in ghosts)
+        total_distance = sum(metrics[ghost]['total_distance'] for ghost in ghosts)
         total_efficiency = sum(metrics[ghost]['path_efficiency'] for ghost in ghosts)
         count = len(ghosts)
         comparison[algorithm]['avg_step_count'] = total_step_count / count
-        comparison[algorithm]['avg_speed'] = total_speed / count
+        comparison[algorithm]['avg_distance'] = total_distance / count
         comparison[algorithm]['avg_path_efficiency'] = total_efficiency / count
         comparison[algorithm]['instances'] = count
     return comparison
 
 def evaluate_algorithms(comparison):
-    """Đánh giá tổng thể các thuật toán dựa trên các chỉ số."""
+    """Đánh giá tổng thể các thuật toán dựa trên các chỉ số đã chuẩn hóa."""
     scores = {}
     for algorithm, stats in comparison.items():
-        score = (stats['avg_path_efficiency'] * 50 +
-                 stats['avg_speed'] * 30 -
-                 stats['avg_step_count'] * 0.2)
-        scores[algorithm] = score
+        if stats['avg_distance'] == 0 or stats['avg_step_count'] == 0:
+            score = 0
+        else:
+            efficiency_score = stats['avg_path_efficiency'] * 50
+            inverse_distance_score = (1 / stats['avg_distance']) * 30
+            inverse_step_score = (1 / stats['avg_step_count']) * 20
+            score = efficiency_score + inverse_distance_score + inverse_step_score
+        scores[algorithm] = round(score, 2)
     return scores
 
 def save_comparison_to_file(comparison):
     """Lưu kết quả so sánh vào file."""
     try:
-        with open('algorithm_comparison.json', 'w') as f:
-            json.dump(comparison, f, indent=4)
+        with open('algorithm_comparison.json', 'w', encoding='utf-8') as f:
+            json.dump(comparison, f, indent=4, ensure_ascii=False)
         print("Kết quả so sánh đã được lưu vào algorithm_comparison.json")
     except Exception as e:
         print(f"Lỗi khi lưu so sánh: {e}")
 
 def visualize_evaluation(scores, metrics, from_game=True):
-    """Trực quan hóa đánh giá các thuật toán bằng nhiều loại biểu đồ."""
+    """Trực quan hóa đánh giá các thuật toán bằng ba biểu đồ."""
     output_dir = "log"
     os.makedirs(output_dir, exist_ok=True)
-    plt.figure(figsize=(10, 6))
-    bars = plt.bar(scores.keys(), scores.values(), color=['skyblue', 'lightgreen', 'salmon', 'lightblue', 'pink', 'gray'])
-    for bar in bars:
-        yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2, yval + 0.5, round(yval, 2), ha='center', va='bottom')
-    plt.title('Đánh giá hiệu quả tổng thể các thuật toán')
-    plt.xlabel('Thuật toán')
-    plt.ylabel('Điểm số')
-    plt.grid(True, axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    output_file = os.path.join(output_dir, 'algorithm_score_bar.png' if from_game else 'algorithm_score_bar_final.png')
-    plt.savefig(output_file)
-    print(f"Biểu đồ điểm số tổng thể đã được lưu vào {output_file}")
-    if not from_game:
-        plt.show()
-    plt.close()
+
     ghost_names = ['Blinky', 'Inky', 'Pinky', 'Clyde']
-    algorithms = [metrics.get(ghost, {}).get('algorithm', 'Unknown') for ghost in ghost_names]
+    ghost_colors = {
+        'Blinky': '#FF0000',
+        'Inky': '#00FFFF',
+        'Pinky': '#FFC0CB',
+        'Clyde': '#FFA500'
+    }
+
     step_counts = [metrics.get(ghost, {}).get('step_count', 0) for ghost in ghost_names]
-    speeds = [metrics.get(ghost, {}).get('average_speed', 0) for ghost in ghost_names]
-    efficiencies = [metrics.get(ghost, {}).get('path_efficiency', 0) for ghost in ghost_names]
-    bar_width = 0.2
-    index = np.arange(len(ghost_names))
-    plt.figure(figsize=(12, 6))
-    plt.bar(index - bar_width, step_counts, bar_width, label='Số bước', color='skyblue')
-    plt.bar(index, speeds, bar_width, label='Tốc độ trung bình', color='lightgreen')
-    plt.bar(index + bar_width, efficiencies, bar_width, label='Hiệu quả đường đi', color='salmon')
-    for i, algo in enumerate(algorithms):
-        plt.text(i, max(step_counts[i], speeds[i], efficiencies[i]) + 0.05, algo, ha='center', va='bottom', rotation=45)
-    plt.xlabel('Ghost')
-    plt.ylabel('Giá trị')
-    plt.title('So sánh các chỉ số giữa các Ghost')
-    plt.xticks(index, ghost_names)
-    plt.legend()
-    plt.grid(True, axis='y', linestyle='--', alpha=0.7)
+    total_distances = [metrics.get(ghost, {}).get('total_distance', 0) for ghost in ghost_names]
+    algorithms = [metrics.get(ghost, {}).get('algorithm', 'Unknown') for ghost in ghost_names]
+    bar_colors = [ghost_colors.get(ghost, '#CCCCCC') for ghost in ghost_names]
+
+    # Biểu đồ 1: Số bước
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(ghost_names, step_counts, color=bar_colors)
+    for i, bar in enumerate(bars):
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval + 2, f'{int(yval)}\n{algorithms[i]}',
+                 ha='center', va='bottom', fontsize=10)
+    plt.title('Số bước di chuyển của các Ghost', fontsize=16)
+    plt.xlabel('Ghost', fontsize=13)
+    plt.ylabel('Số bước', fontsize=13)
+    plt.ylim(0, max(step_counts) * 1.15)
+    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
     plt.tight_layout()
-    output_file = os.path.join(output_dir, 'ghost_metrics_grouped_bar.png' if from_game else 'ghost_metrics_grouped_bar_final.png')
-    plt.savefig(output_file)
-    print(f"Biểu đồ cột nhóm đã được lưu vào {output_file}")
+    output_file = os.path.join(output_dir, 'ghost_step_count_bar.png' if from_game else 'ghost_step_count_bar_final.png')
+    plt.savefig(output_file, dpi=120)
+    print(f"Biểu đồ số bước đã được lưu vào {output_file}")
     if not from_game:
         plt.show()
     plt.close()
+
+    # Biểu đồ 2: Tổng khoảng cách
     plt.figure(figsize=(10, 6))
-    plt.plot(ghost_names, step_counts, marker='o', label='Số bước', color='skyblue')
-    plt.plot(ghost_names, speeds, marker='o', label='Tốc độ trung bình', color='lightgreen')
-    plt.plot(ghost_names, efficiencies, marker='o', label='Hiệu quả đường đi', color='salmon')
-    for i, algo in enumerate(algorithms):
-        plt.text(i, step_counts[i] + 0.05, algo, ha='center', va='bottom', rotation=45)
-    plt.title('Sự thay đổi của các chỉ số qua từng Ghost')
-    plt.xlabel('Ghost')
-    plt.ylabel('Giá trị')
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.7)
+    bars = plt.bar(ghost_names, total_distances, color=bar_colors)
+    for i, bar in enumerate(bars):
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval + 5, f'{yval:.1f}\n{algorithms[i]}',
+                 ha='center', va='bottom', fontsize=10)
+    plt.title('Tổng khoảng cách di chuyển của các Ghost', fontsize=16)
+    plt.xlabel('Ghost', fontsize=13)
+    plt.ylabel('Khoảng cách (pixel)', fontsize=13)
+    plt.ylim(0, max(total_distances) * 1.15)
+    plt.grid(True, axis='y', linestyle='--', alpha=0.6)
     plt.tight_layout()
-    output_file = os.path.join(output_dir, 'ghost_metrics_line.png' if from_game else 'ghost_metrics_line_final.png')
-    plt.savefig(output_file)
-    print(f"Biểu đồ đường đã được lưu vào {output_file}")
+    output_file = os.path.join(output_dir, 'ghost_distance_bar.png' if from_game else 'ghost_distance_bar_final.png')
+    plt.savefig(output_file, dpi=120)
+    print(f"Biểu đồ khoảng cách đã được lưu vào {output_file}")
     if not from_game:
         plt.show()
     plt.close()
-    total_steps = sum(step_counts)
-    if total_steps > 0:
-        labels = [f"{ghost} ({algo})" for ghost, algo in zip(ghost_names, algorithms)]
-        plt.figure(figsize=(8, 8))
-        plt.pie(step_counts, labels=labels, autopct='%1.1f%%', startangle=140, colors=['skyblue', 'lightgreen', 'salmon', 'lightblue'])
-        plt.title('Tỷ lệ số bước di chuyển của các Ghost')
-        plt.tight_layout()
-        output_file = os.path.join(output_dir, 'step_count_pie.png' if from_game else 'step_count_pie_final.png')
-        plt.savefig(output_file)
-        print(f"Biểu đồ tròn đã được lưu vào {output_file}")
-        if not from_game:
-            plt.show()
-        plt.close()
-    plt.figure(figsize=(10, 6))
-    unique_algos = list(set(algorithms))
-    colors = ['skyblue', 'lightgreen', 'salmon', 'lightblue', 'pink', 'gray']
-    algo_to_color = {algo: colors[i % len(colors)] for i, algo in enumerate(unique_algos)}
-    for i, ghost in enumerate(ghost_names):
-        algo = algorithms[i]
-        plt.scatter(speeds[i], efficiencies[i], s=100, color=algo_to_color[algo], label=algo if i == algorithms.index(algo) else "", alpha=0.7)
-        plt.text(speeds[i] + 0.02, efficiencies[i] + 0.02, ghost, fontsize=9)
-    plt.title('Mối quan hệ giữa Tốc độ trung bình và Hiệu quả đường đi')
-    plt.xlabel('Tốc độ trung bình')
-    plt.ylabel('Hiệu quả đường đi')
-    plt.legend(title='Thuật toán')
-    plt.grid(True, linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    output_file = os.path.join(output_dir, 'speed_efficiency_scatter.png' if from_game else 'speed_efficiency_scatter_final.png')
-    plt.savefig(output_file)
-    print(f"Biểu đồ phân tán đã được lưu vào {output_file}")
+
+    # Biểu đồ 3: Pie Chart hiệu quả
+    labels = list(scores.keys())
+    sizes = [max(0.01, score) for score in scores.values()]
+    total_score = sum(sizes)
+    explode = [0.1 if score == max(sizes) else 0 for score in sizes]
+
+    def format_label(i):
+        percent = sizes[i] / total_score * 100
+        return f"{labels[i]} ({sizes[i]:.1f}) - {percent:.1f}%"
+
+    formatted_labels = [format_label(i) for i in range(len(labels))]
+    colors = plt.cm.Set3(np.linspace(0, 1, len(labels)))
+
+    plt.figure(figsize=(8, 8))
+    plt.pie(sizes, explode=explode, labels=formatted_labels, colors=colors,
+            autopct='', shadow=True, startangle=90, textprops={'fontsize': 10})
+    plt.title('Hiệu quả tổng thể của các thuật toán (Score)', fontsize=15, pad=20)
+    plt.axis('equal')
+    output_file = os.path.join(output_dir, 'algorithm_efficiency_pie.png' if from_game else 'algorithm_efficiency_pie_final.png')
+    plt.savefig(output_file, dpi=120)
+    print(f"Biểu đồ tròn hiệu quả đã được lưu vào {output_file}")
     if not from_game:
         plt.show()
     plt.close()

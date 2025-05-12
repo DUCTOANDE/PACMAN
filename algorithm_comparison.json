@@ -1,22 +1,38 @@
 {
+    "A*": {
+        "ghosts": [
+            "Blinky"
+        ],
+        "avg_step_count": 40.0,
+        "avg_distance": 2123.606797749979,
+        "avg_path_efficiency": 0.047089696692416326,
+        "instances": 1
+    },
+    "BFS": {
+        "ghosts": [
+            "Inky"
+        ],
+        "avg_step_count": 33.0,
+        "avg_distance": 1550.0,
+        "avg_path_efficiency": 0.16129032258064516,
+        "instances": 1
+    },
     "Dijkstra": {
         "ghosts": [
-            "Blinky",
             "Pinky"
         ],
-        "avg_step_count": 17.0,
-        "avg_speed": 48.92510596049715,
-        "avg_path_efficiency": 0.07795187907884576,
-        "instances": 2
+        "avg_step_count": 40.0,
+        "avg_distance": 2100.0,
+        "avg_path_efficiency": 0.0,
+        "instances": 1
     },
     "Random": {
         "ghosts": [
-            "Inky",
             "Clyde"
         ],
-        "avg_step_count": 16.5,
-        "avg_speed": 42.6396845534822,
-        "avg_path_efficiency": 0.23333333333333334,
-        "instances": 2
+        "avg_step_count": 69.0,
+        "avg_distance": 3400.0,
+        "avg_path_efficiency": 0.0,
+        "instances": 1
     }
 }
